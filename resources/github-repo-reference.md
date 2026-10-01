@@ -2,6 +2,7 @@
 
 - https://github.com/edhuang1/Awesome-Underwater-Visual-Enhancement-and-3D-Reconstruction
 - https://github.com/CXH-Research/Underwater-Image-Enhancement
+- https://github.com/YuZhao1999/UIE
 
 ## Shallow-UWNet
 
