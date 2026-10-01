@@ -11,3 +11,8 @@
 # CNN
 
 [Shallow-UWnet: Compressed models for underwater image enhancement](https://arxiv.org/pdf/2101.02073)
+
+# GAN
+
+[Fast Underwater Image Enhancement for Improved Visual Perception](https://arxiv.org/pdf/1903.09766)
+[ieee Fast Underwater Image Enhancement for Improved Visual Perception](https://ieeexplore.ieee.org/document/9001231)
