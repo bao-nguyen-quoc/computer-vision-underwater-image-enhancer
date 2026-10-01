@@ -237,4 +237,6 @@ __marimo__/
 
 # BibTeX
 # *.bbl
-# *.blg
+*.blg
+
+*.fls
