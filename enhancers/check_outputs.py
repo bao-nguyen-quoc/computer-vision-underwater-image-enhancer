@@ -2,8 +2,8 @@ import argparse, os, numpy as np
 from PIL import Image
 
 p = argparse.ArgumentParser()
-p.add_argument('--orig', required=True)               # thư mục ảnh gốc
-p.add_argument('--out', nargs='+', required=True)     # một hoặc nhiều thư mục kết quả enhance
+p.add_argument('--orig', required=True) # original directory
+p.add_argument('--out', nargs='+', required=True) # 1 or more output directories
 args = p.parse_args()
 
 names = sorted(n for n in os.listdir(args.orig) if n.lower().endswith(('.png', '.jpg', '.jpeg')))

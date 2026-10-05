@@ -5,9 +5,9 @@ import torch.nn.functional as F
 from PIL import Image
 
 p = argparse.ArgumentParser()
-p.add_argument('--repo', default='computer-vision-Semi-UIR')   # thư mục fork
-p.add_argument('--input', required=True)                       # 1 ảnh hoặc 1 thư mục ảnh
-p.add_argument('--output', required=True)                      # thư mục xuất
+p.add_argument('--repo', default='computer-vision-Semi-UIR') # fork repository
+p.add_argument('--input', required=True) # input image or directory
+p.add_argument('--output', required=True) # output directory
 args = p.parse_args()
 
 sys.path.append(args.repo)
