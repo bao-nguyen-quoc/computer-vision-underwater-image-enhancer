@@ -40,8 +40,15 @@ files = [args.input] if os.path.isfile(args.input) else \
         [os.path.join(args.input, n) for n in sorted(os.listdir(args.input)) if n.lower().endswith(exts)]
 os.makedirs(args.output, exist_ok=True)
 for f in files:
+    out_path = os.path.join(args.output, os.path.basename(f))
+    if os.path.exists(out_path): # skip images already enhanced (safe to re-run after an interruption)
+        continue
     t = time.time()
-    enhance(Image.open(f).convert('RGB')).save(os.path.join(args.output, os.path.basename(f)))
+    # JPEG quality 95 to match ruod640/orig (Pillow default 75 would add extra compression artifacts)
+    img = enhance(Image.open(f).convert('RGB'))
+    tmp = out_path + '.part' # write then rename: an interrupted save never leaves a half-written image
+    img.save(tmp, format=Image.registered_extensions()[os.path.splitext(out_path)[1].lower()], quality=95)
+    os.replace(tmp, out_path)
     parent_dir = os.path.basename(os.path.dirname(f))
     file_name = os.path.basename(f)
     print(f'{parent_dir}/{file_name}: {time.time() - t:.2f}s')
