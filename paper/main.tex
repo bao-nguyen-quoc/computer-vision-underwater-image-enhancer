@@ -1,5 +1,7 @@
 \documentclass[conference]{IEEEtran}
 
+\usepackage{todonotes}
+
 \begin{document}
 
 \title{PLACEHOLDER}
@@ -13,19 +15,19 @@
     \IEEEauthorblockN{2\textsuperscript{nd} Phan Le Van Minh}
     \IEEEauthorblockA{\textit{The University of Danang -- University of Science and Technology}\\
         Da Nang, Vietnam \\
-        102YYYYYY@hv.dut.udn.vn}
+        102250417@hv.dut.udn.vn}
 }
 
 \maketitle
 
 \begin{abstract}
-    This document is a model and instructions for \LaTeX.
-    This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL: Do Not Use Symbols, Special Characters, Footnotes,
-    or Math in Paper Title or Abstract.
+    Draft. UIE support object detection underwater, however, in some scenario, an enhancer that helps one image may not help another. We study selective enhancement: for each image, a lightweight ResNet18 selector chooses between the original image and the outputs of two pretrained enhancers, SCNet and Semi-UIR, before the image is passed to a YOLO11n detector.
+
+    Selector labels are produced with a three-fold out-of-fold protocol based on per-image average precision. On the RUOD benchmark, the selector reaches \todo{mAP value} mAP, compared with \todo{mAP value} for the original images and \todo{mAP value} for the best fixed enhancer, and closes \todo{percentage} of the gap to an oracle selector. \todo{one sentence on runtime cost and main finding.}
 \end{abstract}
 
 \begin{IEEEkeywords}
-    underwater image enhancement, deep learning, GAN, transformer, benchmark
+    underwater image enhancement, underwater object detection, selective enhancement, YOLO11, RUOD
 \end{IEEEkeywords}
 
 \section{Introduction}
