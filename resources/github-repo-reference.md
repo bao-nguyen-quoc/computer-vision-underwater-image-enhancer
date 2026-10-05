@@ -4,6 +4,10 @@
 - https://github.com/CXH-Research/Underwater-Image-Enhancement
 - https://github.com/YuZhao1999/UIE
 
+## SCNet
+
+https://github.com/zhenqifu/SCNet
+
 ## Shallow-UWNet
 
 https://github.com/mkartik/Shallow-UWnet
