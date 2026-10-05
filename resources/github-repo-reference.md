@@ -8,6 +8,10 @@
 
 https://github.com/zhenqifu/SCNet
 
+## Semi-UIR
+
+https://github.com/huang-shirui/semi-uir
+
 ## Shallow-UWNet
 
 https://github.com/mkartik/Shallow-UWnet
