@@ -46,4 +46,6 @@ os.makedirs(args.output, exist_ok=True)
 for f in files:
     t = time.time()
     enhance(Image.open(f).convert('RGB')).save(os.path.join(args.output, os.path.basename(f)))
-    print(f'{os.path.basename(f)}: {time.time() - t:.2f}s')
+    parent_dir = os.path.basename(os.path.dirname(f))
+    file_name = os.path.basename(f)
+    print(f'{parent_dir}/{file_name}: {time.time() - t:.2f}s')
