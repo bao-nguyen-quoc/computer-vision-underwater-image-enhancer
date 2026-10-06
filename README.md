@@ -27,9 +27,33 @@ The forks only contain fixes needed to run the original code on a current enviro
 ```
 enhancers/
   setup.sh # clone forks, install deps, download SCNet weights (idempotent)
+  run_ruod.sh # enhance the whole ruod640 dataset with both models (resumable)
   enhance_semiuir.py # enhance one image or a folder with Semi-UIR
   enhance_scnet.py # enhance one image or a folder with SCNet
   check_outputs.py # verify enhanced images (count, size, NaN/black)
 samples/
   test_img.png # sample image for smoke tests
 ```
+
+## Enhance the whole RUOD dataset (Kaggle)
+
+1. Add the `ruod640` dataset as notebook input and enable **GPU T4 x2**.
+2. Run:
+
+```bash
+git clone -q https://github.com/bao-nguyen-quoc/computer-vision-underwater-image-enhancer /kaggle/working/computer-vision-underwater-image-enhancer
+bash /kaggle/working/computer-vision-underwater-image-enhancer/enhancers/setup.sh /kaggle/working
+bash /kaggle/working/computer-vision-underwater-image-enhancer/enhancers/run_ruod.sh /kaggle/working
+```
+
+3. Run it with **Save Version → Save & Run All** so `/kaggle/working/enhanced` is kept.
+
+Output (same file names as `ruod640/orig`, JPEG quality 95, labels copied):
+
+```
+enhanced/
+  scnet/images/{train,test}/    scnet/labels/{train,test}/
+  semiuir/images/{train,test}/  semiuir/labels/{train,test}/
+```
+
+SCNet runs on GPU 0 and Semi-UIR on GPU 1 in parallel; logs go to `scnet.log` / `semiuir.log`. Re-running skips images that are already done.
