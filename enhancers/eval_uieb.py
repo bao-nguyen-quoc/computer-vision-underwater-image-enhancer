@@ -6,14 +6,13 @@ from PIL import Image
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
  
 p = argparse.ArgumentParser()
-p.add_argument('--ref', required=True)                 # label directories (reference images)
-p.add_argument('--pred', nargs='+', required=True)     # name=directory list
-p.add_argument('--csv', default='uieb_metrics.csv')    # result per image
+p.add_argument('--ref', required=True) # label directories (reference images)
+p.add_argument('--pred', nargs='+', required=True) # name=directory list
+p.add_argument('--csv', default='uieb_metrics.csv') # result per image
 args = p.parse_args()
  
 exts = ('.png', '.jpg', '.jpeg', '.bmp')
-index = lambda d: {os.path.splitext(n)[0]: os.path.join(d, n)
-                   for n in sorted(os.listdir(d)) if n.lower().endswith(exts)}   # ghép theo tên không đuôi
+index = lambda d: {os.path.splitext(n)[0]: os.path.join(d, n) for n in sorted(os.listdir(d)) if n.lower().endswith(exts)}
 ref = index(args.ref)
 load = lambda path: np.asarray(Image.open(path).convert('RGB'), dtype=np.uint8)
  
