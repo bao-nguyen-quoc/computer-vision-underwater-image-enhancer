@@ -6,9 +6,9 @@ from PIL import Image
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
  
 p = argparse.ArgumentParser()
-p.add_argument('--ref', required=True)                 # thư mục label (ảnh tham chiếu)
-p.add_argument('--pred', nargs='+', required=True)     # danh sách tên=thư_mục
-p.add_argument('--csv', default='uieb_metrics.csv')    # kết quả từng ảnh
+p.add_argument('--ref', required=True)                 # label directories (reference images)
+p.add_argument('--pred', nargs='+', required=True)     # name=directory list
+p.add_argument('--csv', default='uieb_metrics.csv')    # result per image
 args = p.parse_args()
  
 exts = ('.png', '.jpg', '.jpeg', '.bmp')
