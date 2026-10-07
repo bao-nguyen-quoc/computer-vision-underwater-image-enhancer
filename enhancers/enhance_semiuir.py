@@ -50,7 +50,7 @@ for f in files:
     t = time.time()
     # JPEG quality 95 to match ruod640/orig (Pillow default 75 would add extra compression artifacts)
     img = enhance(Image.open(f).convert('RGB'))
-    tmp = out_path + '.part' # write then rename: an interrupted save never leaves a half-written image
+    tmp = out_path + f'.{os.getpid()}.part' # write then rename: an interrupted save never leaves a half-written image
     img.save(tmp, format=Image.registered_extensions()[os.path.splitext(out_path)[1].lower()], quality=95)
     os.replace(tmp, out_path)
     parent_dir = os.path.basename(os.path.dirname(f))
