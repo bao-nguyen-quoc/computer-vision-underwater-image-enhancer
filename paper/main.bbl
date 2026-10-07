@@ -55,6 +55,7 @@
       \strng{authornamehash}{e212e52ae2b9f00fd519b51fa6ee719e}
       \strng{authorfullhash}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
       \strng{authorfullhashraw}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \field{extraname}{1}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
@@ -305,6 +306,90 @@
       \verb http://arxiv.org/abs/1901.05495
       \endverb
       \keyw{Computer Science - Computer Vision and Pattern Recognition}
+    \endentry
+    \entry{fuRethinkingGeneralUnderwater2023}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=b1a82c744a8e42032f0708c08c5d8c5c}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Chenping},
+           giveni={C\bibinitperiod}}}%
+        {{hash=4e12bbc6b5e9dec718cc469c75298246}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Risheng},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e99edc74d5ff32a310944afd1f548dbe}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=d817e93cbffe9fe2e7a9307d3492226a}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Puyang},
+           giveni={P\bibinitperiod}}}%
+        {{hash=13cf1e6d0b4937aa13f3bec3328da8e7}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Hao},
+           giveni={H\bibinitperiod}}}%
+        {{hash=6e7ad94fec4ae703bdeefa1be572a2f9}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Wanqi},
+           giveni={W\bibinitperiod}}}%
+        {{hash=4b7d3b4397052de8f3b58a02049b88c3}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Ming},
+           giveni={M\bibinitperiod}}}%
+        {{hash=0cf181f6b5a4ea313fba1597badcdbac}{%
+           family={Luo},
+           familyi={L\bibinitperiod},
+           given={Zhongxuan},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{fullhash}{88a196179aae9904a3b18df771b476c4}
+      \strng{fullhashraw}{88a196179aae9904a3b18df771b476c4}
+      \strng{bibnamehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{authorbibnamehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{authornamehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{authorfullhash}{88a196179aae9904a3b18df771b476c4}
+      \strng{authorfullhashraw}{88a196179aae9904a3b18df771b476c4}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{In this paper, we conduct a comprehensive study of Underwater Object Detection (UOD). UOD has evolved into an attractive research field in the computer vision community in recent years. However, existing UOD datasets collected from specific underwater scenes are limited in the number of images, categories, resolution, and environmental challenges. These limitations can lead to the settings and effectiveness of models trained on existing datasets being impaired in general underwater situations. These limitations also constrain the comprehensive exploration of UOD. To alleviate these issues, we first present a new real-world UOD dataset called RUOD that places UOD in the context of general scene understanding. The dataset contains 14,000 high-resolution images, 74,903 labeled objects, and 10 common aquatic categories. The dataset also has various marine objects and rich environmental challenges including haze-like effects, color casts, and light interference. Second, we conduct extensive and systematic experiments on RUOD to evaluate the development of general underwater scene detection from the perspective of algorithms, complex marine objects, and environmental challenges. The findings from these explorations highlight the challenges of UOD and suggest promising solutions and new directions for UOD. Finally, UOD in practice typically uses underwater image enhancement during preprocessing to improve image quality. We thus characterize object detection performance on enhanced images and find an effective auxiliary framework of image enhancement for UOD. Our dataset is available at https://github.com/dlut-dimt/RUOD.}
+      \field{day}{14}
+      \field{issn}{0925-2312}
+      \field{journaltitle}{Neurocomputing}
+      \field{month}{1}
+      \field{shortjournal}{Neurocomputing}
+      \field{shorttitle}{Rethinking General Underwater Object Detection}
+      \field{title}{Rethinking General Underwater Object Detection: {{Datasets}}, Challenges, and Solutions}
+      \field{urlday}{7}
+      \field{urlmonth}{10}
+      \field{urlyear}{2026}
+      \field{volume}{517}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{243\bibrangedash 256}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.neucom.2022.10.039
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0925231222013169
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0925231222013169
+      \endverb
+      \keyw{Benchmark,Image enhancement,Underwater object detection}
     \endentry
   \enddatalist
 \endrefsection
