@@ -57,3 +57,17 @@ enhanced/
 ```
 
 SCNet runs on GPU 0 and Semi-UIR on GPU 1 in parallel; logs go to `scnet.log` / `semiuir.log`. Re-running skips images that are already done.
+
+## Detection experiments (Kaggle notebooks)
+
+```
+notebooks/
+  kfold_yolo.ipynb        # YOLO11n 3-fold -> per-image mAP -> selector labels (STAGE="folds"); final model + test (STAGE="full")
+  selector_resnet18.ipynb # ResNet18 selector trained on out-of-fold labels, evaluated by composing saved test predictions
+  tools/                  # generators: python tools/make_kfold_nb.py kfold_yolo.ipynb
+results/
+  kfold_yolo_results.md   # K-fold labels + test results, comparison with Awad et al. 2026
+  kfold/summary_*.json    # raw summaries from the Kaggle runs
+```
+
+Test set (4,200 RUOD images, pycocotools mAP@0.5:0.95): original 0.6155, SCNet 0.6129, Semi-UIR 0.6084, random 0.6120, oracle 0.6296. See [results/kfold_yolo_results.md](results/kfold_yolo_results.md).

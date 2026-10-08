@@ -1,0 +1,15 @@
+{
+  "stage": "full",
+  "epochs": 50,
+  "smoke": false,
+  "ultralytics": "8.4.174",
+  "train_seconds": {"full": 10732},
+  "policies": {
+    "always_orig": {"map50_95": 0.6154648485998178, "map50": 0.8468423537765364, "mean_per_image": 0.7185784402230965},
+    "always_scnet": {"map50_95": 0.6129070294161291, "map50": 0.8448733701217344, "mean_per_image": 0.7154297418963523},
+    "always_semiuir": {"map50_95": 0.6083840292376825, "map50": 0.8422180578634726, "mean_per_image": 0.7129755199743126},
+    "random": {"map50_95": 0.6119687049505881, "map50": 0.844442754034611, "mean_per_image": 0.7148011488010421},
+    "oracle": {"map50_95": 0.629635208054221, "map50": 0.8523868001123582, "mean_per_image": 0.7417169059016933}
+  },
+  "oracle_label_counts": {"orig": 2620, "scnet": 846, "semiuir": 734}
+}

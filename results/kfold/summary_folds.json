@@ -1,0 +1,21 @@
+{
+  "stage": "folds",
+  "folds": [0, 1, 2],
+  "fold_hash": "ea44b385539c",
+  "epochs": 30,
+  "smoke": false,
+  "ultralytics": "8.4.174",
+  "train_seconds": {"fold0": 3929, "fold1": 3957, "fold2": 4061},
+  "oof_overall": {
+    "orig": {"map50_95": 0.580816781086061, "map50": 0.8200239088968069},
+    "scnet": {"map50_95": 0.5784669102091837, "map50": 0.817990479964913},
+    "semiuir": {"map50_95": 0.5728794298072492, "map50": 0.8137956427537609}
+  },
+  "label_counts": {"orig": 5704, "scnet": 2208, "semiuir": 1888},
+  "mean_per_image": {
+    "orig": 0.6872924432237097,
+    "scnet": 0.6859275009926157,
+    "semiuir": 0.6816711502235018,
+    "oracle": 0.7164408272618369
+  }
+}
