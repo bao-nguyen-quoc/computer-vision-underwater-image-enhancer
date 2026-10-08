@@ -40,7 +40,7 @@ Môi trường: Kaggle, 2 × T4, Ultralytics 8.4.174.
 | SCNet toàn bộ | 0,8449 | 0,6129 | 0,7154 |
 | Semi-UIR toàn bộ | 0,8422 | 0,6084 | 0,7130 |
 | Chọn ngẫu nhiên | 0,8444 | 0,6120 | 0,7148 |
-| Selector (của nhóm) | *chờ notebook Selector* | | |
+| Selector `ce+tau` (của nhóm) | 0,8474 | 0,6159 | 0,7182 |
 | Oracle (cận trên) | 0,8524 | 0,6296 | 0,7417 |
 
 - Nhãn oracle trên test: ảnh gốc 2.620 (62,4%), SCNet 846 (20,1%), Semi-UIR 734 (17,5%).
@@ -108,9 +108,13 @@ Train trên cả 3 phiên bản không làm hại ảnh gốc; ngược lại c�
 
 Trang Output của Kaggle hiển thị thư mục `weights` là "empty" ở cả hai version. Log của v6 cho thấy `weights/full.pt` (5,2 MB) đã được lưu. Các file `fold{0,1,2}.pt` của v4 được code lưu cùng chỗ nhưng chưa kiểm tra; cần kiểm tra trước khi dùng lại, ví dụ để thêm ACDC.
 
-## 6. Bước tiếp theo
+## 6. Selector
 
-- Chạy [`notebooks/selector_resnet18.ipynb`](../notebooks/selector_resnet18.ipynb).
-  - Input: dataset `ruod640`, output v6, `labels_train.csv` của v4.
-  - Kết quả: dòng Selector, gap closed, bootstrap CI, ma trận nhầm lẫn, AP theo lớp, ms/ảnh.
+Đã chạy [`notebooks/selector_resnet18.ipynb`](../notebooks/selector_resnet18.ipynb); chi tiết trong [`selector_results.md`](selector_results.md).
+- Selector `ce+tau` đạt 0,6159 mAP@0.5:0.95, ngang ảnh gốc: gap closed +3,2% theo mAP cả tập, −1,5% theo mAP từng ảnh. Khoảng tin cậy 95% của chênh lệch chứa 0.
+- Selector an toàn hơn tăng cường đồng loạt và chọn ngẫu nhiên.
+
+## 7. Bước tiếp theo
+
+- Chạy `analysis_noise_fusion`: đo mức nhiễu của oracle bằng ảnh lật ngang, gộp nhiều phiên bản bằng WBF, chọn theo độ tự tin của detector.
 - Thêm dòng YOLO baseline chấm bằng pycocotools trên cùng tập test, để bảng 2 dùng một cách tính thống nhất.

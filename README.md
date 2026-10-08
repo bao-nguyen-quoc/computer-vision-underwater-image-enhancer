@@ -68,6 +68,10 @@ notebooks/
 results/
   kfold_yolo_results.md   # K-fold labels + test results, comparison with Awad et al. 2026
   kfold/summary_*.json    # raw summaries from the Kaggle runs
+  selector_results.md     # ResNet18 selector results (gap closed, bootstrap CI, confusion, per-class AP)
+  selector/*.csv          # selector result tables
 ```
 
 Test set (4,200 RUOD images, pycocotools mAP@0.5:0.95): original 0.6155, SCNet 0.6129, Semi-UIR 0.6084, random 0.6120, oracle 0.6296. See [results/kfold_yolo_results.md](results/kfold_yolo_results.md).
+
+Selector (ResNet18, `ce+tau`): 0.6159, on par with the original images (gap closed +3.2%, 95% CI of the per-image difference contains 0). See [results/selector_results.md](results/selector_results.md).
