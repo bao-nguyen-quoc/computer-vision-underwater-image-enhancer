@@ -116,5 +116,7 @@ Trang Output của Kaggle hiển thị thư mục `weights` là "empty" ở cả
 
 ## 7. Bước tiếp theo
 
-- Chạy `analysis_noise_fusion`: đo mức nhiễu của oracle bằng ảnh lật ngang, gộp nhiều phiên bản bằng WBF, chọn theo độ tự tin của detector.
+- Đã chạy `analysis_noise_fusion` (xem [`analysis_noise_fusion.md`](analysis_noise_fusion.md)):
+  - oracle {gốc, gốc lật} tăng bằng hoặc hơn oracle của tăng cường, tức khoảng oracle chủ yếu là nhiễu;
+  - WBF 4 góc nhìn +0,0023 là phương pháp duy nhất vượt ảnh gốc có ý nghĩa thống kê.
 - Thêm dòng YOLO baseline chấm bằng pycocotools trên cùng tập test, để bảng 2 dùng một cách tính thống nhất.

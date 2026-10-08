@@ -82,5 +82,8 @@ So sánh: đoán "luôn gốc" có accuracy 0,624 trên test.
    - accuracy thấp hơn đoán "luôn gốc";
    - với ảnh mà oracle chọn SCNet, Selector chỉ đoán đúng 83/846;
    - mô hình học thuộc tập train nhưng val không cải thiện.
-4. **Giả thuyết (đang kiểm chứng bằng `analysis_noise_fusion`):** khoảng oracle (+0,023 từng ảnh) phần lớn là nhiễu của detector theo từng ảnh, không phải do đặc điểm hình ảnh. Nếu đúng, bộ chọn chỉ dựa trên hình ảnh không thể khai thác khoảng này, và con số 0,68 → 0,77 của Awad et al. phóng đại lợi ích của tăng cường có chọn lọc.
+4. **Vì sao Selector không học được (đã kiểm chứng bằng [`analysis_noise_fusion`](analysis_noise_fusion.md)):**
+   - Oracle {gốc, gốc lật} tăng +0,0207 từng ảnh, bằng 144% mức tăng của {gốc, SCNet}.
+   - Khoảng oracle (+0,023 từng ảnh) vì vậy chủ yếu là nhiễu của detector theo từng ảnh, không phải do đặc điểm hình ảnh.
+   - Bộ chọn chỉ dựa trên hình ảnh không thể khai thác khoảng này. Con số 0,68 → 0,77 của Awad et al. phóng đại lợi ích của tăng cường có chọn lọc.
 5. **Chi phí:** Selector chỉ thêm 7,7 ms/ảnh. Nếu chọn Semi-UIR (khoảng 2 s/ảnh) thì chi phí lớn nằm ở bước tăng cường, nên giữ ảnh gốc cho phần lớn ảnh còn tiết kiệm thời gian.
