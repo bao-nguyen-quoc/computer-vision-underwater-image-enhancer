@@ -60,10 +60,10 @@ Tỷ lệ chọn gốc/SCNet/Semi-UIR: `conf_top5` là 1482/1351/1367, `conf_sum
    - Gộp 2 hoặc 3 phiên bản thì không giúp, hoặc làm kém đi.
    - Đổi lại phải chạy 4 lần YOLO cộng SCNet và Semi-UIR (khoảng 2 s/ảnh).
 5. **Giá trị thực tế của tăng cường ảnh** nằm ở:
-   - làm dữ liệu train: detector train trên 3 miền ảnh đạt 0,621, so với 0,6037 khi chỉ train ảnh gốc (validator Ultralytics, xem [`kfold_yolo_results.md`](kfold_yolo_results.md));
+   - làm dữ liệu train để detector **bền khi miền ảnh thay đổi**. Trên ảnh gốc, detector đa miền chỉ ngang detector chỉ train ảnh gốc với cùng số lượt ảnh (0,6155 so với 0,6150). Nhưng trên ảnh SCNet / Semi-UIR, nó hơn +0,035 / +0,062. Xem [`domain_detectors.md`](domain_detectors.md);
    - làm thêm góc nhìn khi gộp.
 
-   Tăng cường không có giá trị khi dùng để chọn một phiên bản cho mỗi ảnh lúc suy luận.
+   Tăng cường không có giá trị khi dùng để chọn một phiên bản cho mỗi ảnh lúc suy luận, và cũng không làm detector chính xác hơn trên ảnh gốc.
 
 ## Hạn chế
 

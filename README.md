@@ -65,6 +65,8 @@ notebooks/
   kfold_yolo.ipynb        # YOLO11n 3-fold -> per-image mAP -> selector labels (STAGE="folds"); final model + test (STAGE="full")
   selector_resnet18.ipynb # ResNet18 selector trained on out-of-fold labels, evaluated by composing saved test predictions
   analysis_noise_fusion.ipynb # noise floor of the oracle (horizontal flip) + WBF fusion / confidence-based selection
+  domain_detectors.ipynb  # single-domain detectors (orig-only, Semi-UIR-only, orig 150 ep) vs the mixed-domain detector
+  pack_ruod640.ipynb      # packs ruod640 originals into one zip (works around Kaggle dataset mount errors)
   tools/                  # generators: python tools/make_kfold_nb.py kfold_yolo.ipynb
 results/
   kfold_yolo_results.md   # K-fold labels + test results, comparison with Awad et al. 2026
@@ -73,6 +75,8 @@ results/
   selector/*.csv          # selector result tables
   analysis_noise_fusion.md # oracle noise floor + fusion results
   analysis/*.csv          # analysis result tables
+  domain_detectors.md     # domain-detector matrix (4 detectors x 3 test versions), CIs, per-class AP
+  domain/*.csv            # domain-detector tables
 ```
 
 Test set (4,200 RUOD images, pycocotools mAP@0.5:0.95): original 0.6155, SCNet 0.6129, Semi-UIR 0.6084, random 0.6120, oracle 0.6296. See [results/kfold_yolo_results.md](results/kfold_yolo_results.md).
@@ -80,3 +84,5 @@ Test set (4,200 RUOD images, pycocotools mAP@0.5:0.95): original 0.6155, SCNet 0
 Selector (ResNet18, `ce+tau`): 0.6159, on par with the original images (gap closed +3.2%, 95% CI of the per-image difference contains 0). See [results/selector_results.md](results/selector_results.md).
 
 Analysis: an oracle over {original, horizontally flipped original} gains as much as an oracle over enhanced versions (+0.0146 mAP@0.5:0.95), so the selective-enhancement oracle gap is mostly detector noise; WBF over 4 views (original, flip, SCNet, Semi-UIR) is the only method significantly above the original (+0.0023). See [results/analysis_noise_fusion.md](results/analysis_noise_fusion.md).
+
+Domain detectors: the mixed-domain detector matches an original-only detector trained for the same number of image passes on original images (0.6155 vs 0.6150) but is far more robust on enhanced inputs (+0.035 on SCNet, +0.062 on Semi-UIR images). See [results/domain_detectors.md](results/domain_detectors.md).
