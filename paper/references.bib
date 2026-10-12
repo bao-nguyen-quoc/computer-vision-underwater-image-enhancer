@@ -49,6 +49,29 @@
   keywords    = {Computer Science - Computer Vision and Pattern Recognition,Electrical Engineering and Systems Science - Image and Video Processing}
 }
 
+@online{heDeepResidualLearning2015,
+  title        = {Deep {{Residual Learning}} for {{Image Recognition}}},
+  author       = {He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  date         = {2015-12-10},
+  url          = {https://arxiv.org/abs/1512.03385v1},
+  urldate      = {2026-10-12},
+  abstract     = {Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We explicitly reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from considerably increased depth. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers---8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57\% error on the ImageNet test set. This result won the 1st place on the ILSVRC 2015 classification task. We also present analysis on CIFAR-10 with 100 and 1000 layers. The depth of representations is of central importance for many visual recognition tasks. Solely due to our extremely deep representations, we obtain a 28\% relative improvement on the COCO object detection dataset. Deep residual nets are foundations of our submissions to ILSVRC \& COCO 2015 competitions, where we also won the 1st places on the tasks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.},
+  langid       = {english},
+  organization = {arXiv.org}
+}
+
+@online{huangAMIEODAdaptiveMultiExperts2026,
+  title        = {{{AMIEOD}}: {{Adaptive Multi-Experts Image Enhancement}} for {{Object Detection}} in {{Low-Illumination Scenes}}},
+  shorttitle   = {{{AMIEOD}}},
+  author       = {Huang, Xiaochen and Chen, Honggang and Zhang, Weicheng and Dai, Xiaobo and Li, Yongyi and Qing, Linbo and He, Xiaohai},
+  date         = {2026-05-07},
+  url          = {https://arxiv.org/abs/2605.06084v1},
+  urldate      = {2026-10-12},
+  abstract     = {In multimedia application scenarios, images captured under low-illumination conditions often lead to lower accuracy in visual perception tasks compared to those taken in well-lit environments. To tackle this challenge, we propose AMIEOD, an image enhancement-enabled object detection framework for low-illumination scenes, where the two tasks are jointly optimized in a detection performance-oriented manner. Specifically, to fully exploit the information in poorly lit images, a Multi-Experts Image Enhancement Module (MEIEM) is proposed, which leverages diverse enhancement strategies. On this basis, aiming to better align the MEIEM with the detection task, we propose a Detection-Guided Regression Loss (DGRL) that utilizes the detection result to decide the regression target. Moreover, to dynamically select the most suitable enhancement strategy from MEIEM during inference, we construct an Expert Selection Module (ESM) guided by the proposed Detection-Guided Cross-Entropy (DGCE) loss, which formulates the optimization of ESM as a classification task. The improved method is well-matched with current detection algorithms to improve their performance in dim scenes. Extensive experiments on multiple datasets demonstrate that the proposed method significantly improves object detection accuracy in low-illumination conditions. Our code has been released at https://github.com/scujayfantasy/AMIEOD},
+  langid       = {english},
+  organization = {arXiv.org}
+}
+
 @online{huangContrastiveSemisupervisedLearning2023,
   title       = {Contrastive {{Semi}}-Supervised {{Learning}} for {{Underwater Image Restoration}} via {{Reliable Bank}}},
   author      = {Huang, Shirui and Wang, Keyan and Liu, Huan and Chen, Jun and Li, Yunsong},
@@ -64,6 +87,14 @@
   keywords    = {Computer Science - Computer Vision and Pattern Recognition}
 }
 
+@software{jocherUltralyticsYOLO2024,
+  author  = {Jocher, Glenn and Qiu, Jing and Chaurasia, Ayush},
+  title   = {Ultralytics {YOLO}},
+  year    = {2024},
+  url     = {https://github.com/ultralytics/ultralytics},
+  version = {8.0.0}
+}
+
 @online{liUnderwaterImageEnhancement2019,
   title       = {An {{Underwater Image Enhancement Benchmark Dataset}} and {{Beyond}}},
   author      = {Li, Chongyi and Guo, Chunle and Ren, Wenqi and Cong, Runmin and Hou, Junhui and Kwong, Sam and Tao, Dacheng},
@@ -77,4 +108,43 @@
   abstract    = {Underwater image enhancement has been attracting much attention due to its significance in marine engineering and aquatic robotics. Numerous underwater image enhancement algorithms have been proposed in the last few years. However, these algorithms are mainly evaluated using either synthetic datasets or few selected real-world images. It is thus unclear how these algorithms would perform on images acquired in the wild and how we could gauge the progress in the field. To bridge this gap, we present the first comprehensive perceptual study and analysis of underwater image enhancement using large-scale real-world images. In this paper, we construct an Underwater Image Enhancement Benchmark (UIEB) including 950 real-world underwater images, 890 of which have the corresponding reference images. We treat the rest 60 underwater images which cannot obtain satisfactory reference images as challenging data. Using this dataset, we conduct a comprehensive study of the state-of-the-art underwater image enhancement algorithms qualitatively and quantitatively. In addition, we propose an underwater image enhancement network (called Water-Net) trained on this benchmark as a baseline, which indicates the generalization of the proposed UIEB for training Convolutional Neural Networks (CNNs). The benchmark evaluations and the proposed Water-Net demonstrate the performance and limitations of state-of-the-art algorithms, which shed light on future research in underwater image enhancement. The dataset and code are available at https://li-chongyi.github.io/proj\_benchmark.html.},
   pubstate    = {prepublished},
   keywords    = {Computer Science - Computer Vision and Pattern Recognition}
+}
+
+@article{luoMASYOLOv11ImprovedUnderwater2025,
+  title        = {{{MAS-YOLOv11}}: {{An Improved Underwater Object Detection Algorithm Based}} on {{YOLOv11}}},
+  shorttitle   = {{{MAS-YOLOv11}}},
+  author       = {Luo, Yang and Wu, Aiping and Fu, Qingqing},
+  date         = {2025-06},
+  journaltitle = {Sensors},
+  volume       = {25},
+  number       = {11},
+  pages        = {3433},
+  publisher    = {Multidisciplinary Digital Publishing Institute},
+  issn         = {1424-8220},
+  doi          = {10.3390/s25113433},
+  url          = {https://www.mdpi.com/1424-8220/25/11/3433},
+  urldate      = {2026-10-12},
+  abstract     = {To address the challenges of underwater target detection, including complex background interference, light attenuation, severe occlusion, and overlap between targets, as well as the wide-scale variation in objects, we propose MAS-YOLOv11, an improved model integrating three key enhancements: First, we introduce the C2PSA\_MSDA module, which integrates multi-scale dilated attention (MSDA) into the C2PSA module of the backbone, enhancing multi-scale feature representation via dilated convolutions and cross-scale attention. Second, an adaptive spatial feature fusion detection head (ASFFHead) replaces the original head. By employing learnable spatial weighting parameters, ASFFHead adaptively fuses features across different scales, significantly improving the robustness of multi-scale object detection. Third, we introduce a Slide Loss function with dynamic sample weighting to enhance hard sample learning. By mapping the loss weights nonlinearly to detection confidence, this mechanism effectively enhances the overall detection accuracy. The experimental results demonstrate that the improved model yields significant performance advancements on the DUO dataset: the recall rate is enhanced by 3.7\%, the F1-score is elevated by 3\%, and the mAP@50 and mAP@50-95 attain values of 77.4\% and 55.1\%, respectively, representing increases of 3.5\% and 3.3\% compared to the baseline model. Furthermore, the model achieves an mAP@50 of 76\% on the RUOD dataset, which further corroborates its cross-domain generalization capability.},
+  langid       = {english},
+  keywords     = {attention mechanism,detection head,loss function,multi-scale feature learning,underwater object detection,YOLOv11}
+}
+
+@article{solovyevWeightedBoxesFusion2021,
+  title        = {Weighted Boxes Fusion: {{Ensembling}} Boxes from Different Object Detection Models},
+  shorttitle   = {Weighted Boxes Fusion},
+  author       = {Solovyev, Roman and Wang, Weimin and Gabruseva, Tatiana},
+  date         = {2021-03},
+  journaltitle = {Image and Vision Computing},
+  shortjournal = {Image and Vision Computing},
+  volume       = {107},
+  eprint       = {1910.13302},
+  eprinttype   = {arXiv},
+  eprintclass  = {cs.CV},
+  pages        = {104117},
+  issn         = {02628856},
+  doi          = {10.1016/j.imavis.2021.104117},
+  url          = {http://arxiv.org/abs/1910.13302},
+  urldate      = {2026-10-12},
+  abstract     = {In this work, we present a novel method for combining predictions of object detection models: weighted boxes fusion. Our algorithm utilizes confidence scores of all proposed bounding boxes to constructs the averaged boxes. We tested method on several datasets and evaluated it in the context of the Open Images and COCO Object Detection tracks, achieving top results in these challenges. The source code is publicly available at https://github.com/ZFTurbo/Weighted-Boxes-Fusion},
+  keywords     = {Computer Science - Computer Vision and Pattern Recognition}
 }
