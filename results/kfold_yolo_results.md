@@ -56,7 +56,7 @@ Cả hai đều chấm trên ảnh test gốc bằng validator của Ultralytics
 | YOLO11n baseline (tuần 1) | chỉ ảnh gốc, 9.800 ảnh | 50 | 0,8446 | 0,6037 |
 | YOLO11n model cuối | 3 phiên bản, 29.400 ảnh | 50 | 0,854 | 0,621 |
 
-Train trên cả 3 phiên bản không làm hại ảnh gốc; ngược lại còn tăng +0,018 mAP@0.5:0.95, nhiều khả năng do nhiều dữ liệu hơn và ảnh tăng cường đóng vai trò augmentation.
+Train trên cả 3 phiên bản không làm hại ảnh gốc. Nhưng mức tăng so với baseline **không phải do đa dạng miền**. Thí nghiệm đối chứng A150 (chỉ ảnh gốc, 150 epoch, cùng số lượt ảnh với model cuối) đạt 0,6150 pycocotools, gần bằng model cuối (0,6155). Như vậy phần tăng chủ yếu do train nhiều hơn, còn baseline 50 epoch chưa train đủ. Ưu điểm thật của train đa miền là bền khi miền ảnh thay đổi: so với A150, model cuối hơn +0,035 trên ảnh SCNet và +0,062 trên ảnh Semi-UIR. Xem [`domain_detectors.md`](domain_detectors.md).
 
 ### AP theo lớp của model cuối trên ảnh test gốc (validator Ultralytics)
 
@@ -119,4 +119,4 @@ Trang Output của Kaggle hiển thị thư mục `weights` là "empty" ở cả
 - Đã chạy `analysis_noise_fusion` (xem [`analysis_noise_fusion.md`](analysis_noise_fusion.md)):
   - oracle {gốc, gốc lật} tăng bằng hoặc hơn oracle của tăng cường, tức khoảng oracle chủ yếu là nhiễu;
   - WBF 4 góc nhìn +0,0023 là phương pháp duy nhất vượt ảnh gốc có ý nghĩa thống kê.
-- Thêm dòng YOLO baseline chấm bằng pycocotools trên cùng tập test, để bảng 2 dùng một cách tính thống nhất.
+- ~~Thêm dòng YOLO baseline chấm bằng pycocotools~~: đã làm trong [`domain_detectors.md`](domain_detectors.md). Baseline A đạt 0,5990 trên test gốc, A150 đạt 0,6150.
