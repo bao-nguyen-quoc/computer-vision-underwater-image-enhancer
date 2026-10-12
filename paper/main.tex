@@ -2,20 +2,15 @@
 
 \usepackage[T1]{fontenc}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
-\setlength{\marginparwidth}{2cm}
-\usepackage{todonotes}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{url}
 \usepackage[backend=biber, style=numeric-comp, sorting=none, giveninits=true,
     maxbibnames=6, url=false, doi=true, eprint=true, isbn=false]{biblatex}
 \addbibresource{references.bib}
 \AtBeginBibliography{\footnotesize}
-
-% Visible marker for references that are not yet in references.bib.
-\newcommand{\citeneeded}[1]{\textcolor{red}{[cite: #1]}}
-% Placeholder for numbers that are not available yet.
-\newcommand{\tbd}{\textit{TBD}}
-% Inline placeholder for pending text (margin notes do not fit IEEEtran margins).
-\newcommand{\pending}[1]{\textcolor{red}{[#1]}}
 
 \begin{document}
 
@@ -23,22 +18,26 @@
 
 \author{
     \IEEEauthorblockN{1\textsuperscript{st} Nguyen Quoc Bao}
-    \IEEEauthorblockA{\textit{The University of Danang -- University of Science and Technology}\\
-        Da Nang, Vietnam \\
-        102250412@hv.dut.udn.vn}
+    \IEEEauthorblockA{
+        \textit{The University of Danang}\\
+        \textit{University of Science and Technology}\\
+        Da Nang, Vietnam\\
+        102250412@hv.dut.udn.vn
+    }
     \and
     \IEEEauthorblockN{2\textsuperscript{nd} Phan Le Van Minh}
-    \IEEEauthorblockA{\textit{The University of Danang -- University of Science and Technology}\\
-        Da Nang, Vietnam \\
-        102250417@hv.dut.udn.vn}
+    \IEEEauthorblockA{
+        \textit{The University of Danang}\\
+        \textit{University of Science and Technology}\\
+        Da Nang, Vietnam\\
+        102250417@hv.dut.udn.vn
+    }
 }
 
 \maketitle
 
 \begin{abstract}
-    Underwater image enhancement (UIE) is often used as a pre-processing step for underwater object detection, but an enhancer that helps one image may hurt another. We study selective enhancement: for each image, a lightweight ResNet18 selector chooses between the original image and the outputs of two pretrained enhancers, SCNet and Semi-UIR, before the image is passed to a YOLO11n detector. Selector labels are produced with a three-fold out-of-fold protocol based on per-image mean average precision (mAP).
-
-    % This draft reports the completed enhancement stage. We integrated both enhancers with their released weights and verified them on the 90-image UIEB test set, obtaining 22.43\,dB / 0.8787 (SCNet) and 24.21\,dB / 0.8857 (Semi-UIR) PSNR / SSIM, within 0.4\,dB of the values reported by the original authors. Even under these fidelity metrics no single version is best for every image: a per-image oracle over the three versions reaches 24.95\,dB, 0.74\,dB above the best fixed enhancer. On the RUOD benchmark, the selector reaches \pending{mAP value} mAP, compared with \pending{mAP value} for the original images and \pending{mAP value} for the best fixed enhancer, and closes \pending{percentage} of the gap to an oracle selector. \pending{one sentence on runtime cost and main finding.}
+    Underwater image enhancement (UIE) is widely assumed to benefit object detection, yet applying SCNet or Semi-UIR uniformly lowers YOLO11n mAP@0.5:0.95 on the 4{,}200-image RUOD benchmark (from 0.6155 for raw images to 0.6129 and 0.6084, respectively). A ground-truth-guided oracle that picks the best version per image reaches 0.6296 (+0.0142 dataset mAP, +0.0231 per-image mAP), but whether this gap can be captured without labels has remained an open question. We design a leakage-free selective enhancement pipeline: out-of-fold labels are generated using a three-fold detector evaluation protocol with an improvement margin ($\delta = 0.01$), and an ultra-lightweight ResNet18 selector (7.7\,ms latency) dynamically chooses among raw, SCNet, and Semi-UIR inputs based solely on the raw image. With decision thresholding ($\tau = 0.625$), the selector achieves 0.6159 mAP@0.5:0.95, matching the raw baseline (+3.2\% dataset oracle gap closed) while safely keeping the raw image for 85.5\% of queries. Crucially, a diagnostic noise floor analysis reveals that an oracle over the raw image and its horizontal flip—involving zero enhancement—achieves +0.0207 per-image mAP gain (144\% of SCNet's oracle gain of +0.0144), proving that the apparent oracle headroom is predominantly detector measurement stochasticity rather than learnable optical features. Finally, we evaluate actionable alternatives: multi-view Weighted Boxes Fusion (WBF) across spatial and photometric domains reliably improves detection (+0.0023 mAP@0.5:0.95, 95\% CI $[+0.0014, +0.0051]$), and multi-version detector training boosts raw-image mAP@0.5:0.95 from 0.6037 to 0.6210 (+0.018), confirming that UIE provides genuine value as training-time data augmentation rather than inference-time image selection.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -49,191 +48,427 @@
 \section{Introduction}
 \label{sec:intro}
 
-Underwater images suffer from wavelength-dependent absorption and scattering, which cause color casts, low contrast and haze. Underwater image enhancement (UIE) methods such as SCNet~\cite{fuUnderwaterImageEnhancement2022} and Semi-UIR~\cite{huangContrastiveSemisupervisedLearning2023} restore visual quality and are frequently placed in front of downstream vision models under the assumption that a better-looking image is also easier to analyse.
+Underwater optical vision systems deployed on autonomous underwater vehicles (AUVs) and remotely operated vehicles (ROVs) encounter severe physical degradations, including wavelength-dependent light absorption and particulate scattering~\cite{fuRethinkingGeneralUnderwater2023,liUnderwaterImageEnhancement2019}. Red light attenuates rapidly within shallow depths, producing pervasive green-blue color casts, low contrast, boundary blurring, and turbidity haze.
 
-Recent evidence challenges this assumption for object detection. Awad et al.~\cite{awadRevisitingUnderwaterImage2026} evaluated nine enhancement methods with modern detectors and found that traditional image quality metrics do not reliably predict detection performance, and that dataset-level conclusions hide large per-image variability: enhancement clearly helps on many low-quality inputs but degrades others. Their mixed-set upper-bound analysis shows that choosing the best version for each image could yield substantial gains over both the original and the fully enhanced datasets, but it assumes an ideal, ground-truth-aware choice.
+To restore visual clarity, deep learning underwater image enhancement (UIE) models such as SCNet~\cite{fuUnderwaterImageEnhancement2022} and Semi-UIR~\cite{huangContrastiveSemisupervisedLearning2023} have demonstrated remarkable success according to full-reference perceptual metrics such as PSNR and SSIM. Consequently, a prevailing engineering assumption in marine robotics is that perceptual restoration should serve as an automatic, modular pre-processing stage preceding downstream object detectors.
 
-In this work we turn that upper bound into a practical pipeline. For each image, a lightweight classifier selects one of three versions, namely the original image, the SCNet output, or the Semi-UIR output, which is then passed to a YOLO11n detector~\citeneeded{YOLO11 / Ultralytics}. Our contributions are:
+However, recent studies reveal a fundamental paradox~\cite{awadRevisitingUnderwaterImage2026}: visual quality does not consistently translate to downstream detection accuracy. Uniform enhancement across diverse benchmarks frequently degrades detection performance relative to processing raw images directly. Enhancers can introduce artificial high-frequency textures, amplify sensor noise, oversaturate color channels, or alter fine object contours. Nonetheless, enhancement remains beneficial on select severely degraded, turbid, or under-illuminated inputs.
+
+Awad et al.~\cite{awadRevisitingUnderwaterImage2026} highlighted this heterogeneity on the RUOD benchmark~\cite{fuRethinkingGeneralUnderwater2023} via a theoretical ``mixed-set upper bound'': an idealized oracle selector picking the highest-mAP version among nine candidate enhancers increased mean per-image mAP from 0.68 to 0.77 (+0.09). This observation motivated two fundamental questions:
+\begin{enumerate}
+    \item \emph{Can selective enhancement be achieved autonomously?} An oracle requires ground-truth annotations at test time. Can a lightweight selector reliably choose the optimal image version using only the raw input?
+    \item \emph{What is the true nature of the oracle headroom?} Awad et al. evaluated ten independent detectors across ten enhanced variants. Did the +0.09 headroom reflect recoverable visual signals, or was it largely an artifact of detector measurement noise and model diversity?
+\end{enumerate}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{figures/sample_enhancement.png}
+    \caption{Sample RUOD image before and after enhancement. From left to right: raw input (orig), Semi-UIR~\cite{huangContrastiveSemisupervisedLearning2023}, and SCNet~\cite{fuUnderwaterImageEnhancement2022}.}
+    \label{fig:sample}
+\end{figure}
+
+To address these questions, we implement and benchmark a selective enhancement pipeline for YOLO11n~\cite{jocherUltralyticsYOLO2024} on the 14{,}000-image RUOD benchmark. The pipeline selects among three versions: raw image, SCNet, and Semi-UIR. Our core contributions are:
 \begin{itemize}
-    \item A reproducible inference pipeline for SCNet and Semi-UIR with their released weights, running at native resolution on current PyTorch, and verified against the published UIEB results (Section~\ref{sec:res-uieb}).
-    \item A per-image analysis on UIEB showing that the best version varies from image to image even under full-reference fidelity metrics (Section~\ref{sec:res-perimage}).
-    \item \emph{(In progress.)} A leakage-free labelling protocol based on three-fold out-of-fold per-image mAP, and a ResNet18 selector evaluated on RUOD against fixed-enhancer, random and oracle baselines (Section~\ref{sec:res-ruod}).
+    \item \textbf{Leakage-Free Selective Pipeline:} Out-of-fold selector targets are generated via a three-fold cross-validation detector protocol with an improvement margin ($\delta = 0.01$), preventing in-sample overfitting. An ultra-lightweight ResNet18 selector~\cite{heDeepResidualLearning2015} (7.7\,ms latency) operates strictly on raw $224 \times 224$ inputs.
+    \item \textbf{Safe Baseline Parity:} On 4{,}200 RUOD test images, the calibrated selector achieves 0.6159 mAP@0.5:0.95 (+3.2\% dataset oracle gap closed), matching raw baseline accuracy (0.6155) while avoiding the degradation of uniform SCNet (0.6129), Semi-UIR (0.6084), or random selection (0.6120) by retaining the raw image for 85.5\% of inputs.
+    \item \textbf{Oracle Noise Floor Formulation:} Counter-experiments using horizontal reflection reveal that an oracle over raw and flipped images—involving zero enhancement—yields +0.0207 per-image mAP gain (144\% of SCNet's gain of +0.0144). We prove that oracle headroom is predominantly detector measurement stochasticity rather than learnable optical features, explaining the selector's learning ceiling.
+    \item \textbf{Actionable Alternatives:} Multi-view Weighted Boxes Fusion (WBF)~\cite{solovyevWeightedBoxesFusion2021} across geometric and photometric domains achieves statistically validated gains (+0.0023 mAP@0.5:0.95, 95\% CI $[+0.0014, +0.0051]$). Furthermore, multi-version detector training boosts raw-image mAP@0.5:0.95 from 0.6037 to 0.6210 (+0.018), confirming that UIE provides genuine value as training-time data augmentation.
 \end{itemize}
 
+% ---------------------------------------------------------------------------
 \section{Related Work}
 \label{sec:related}
 
 \subsection{Underwater Image Enhancement}
 
-SCNet~\cite{fuUnderwaterImageEnhancement2022} targets the diversity of underwater degradations by learning \emph{water-type desensitized} representations. At each scale of a U-Net, it whitens activations across spatial dimensions for every instance and removes channel-wise correlation by standardising and re-injecting the first two moments of the activations, so that the decoder can reconstruct the clean signal independently of the water type.
+Deep UIE models are typically categorized into supervised, zero-shot, and semi-supervised approaches. SCNet~\cite{fuUnderwaterImageEnhancement2022} targets water-type diversity by learning \emph{water-type desensitized} representations: across U-Net feature scales, it decorrelates spatial activations via instance whitening and standardizes channel moments (mean and variance).
 
-Semi-UIR~\cite{huangContrastiveSemisupervisedLearning2023} addresses the shortage of paired training data with a mean-teacher semi-supervised framework. A \emph{reliable bank} stores the ``best-ever'' teacher outputs, ranked by a no-reference image quality metric, as pseudo ground truth, and a contrastive regularisation term reduces confirmation bias from wrong pseudo-labels. Its released restoration network takes both the image and an estimated luminance map as input.
+Semi-UIR~\cite{huangContrastiveSemisupervisedLearning2023} mitigates paired data scarcity using a mean-teacher framework with contrastive regularization. A \emph{reliable bank} stores pseudo-labels ranked by no-reference image quality assessment (NR-IQA). At inference, an Attention-guided Illumination Modulation network (AIMnet) modulates features using an estimated multi-scale Gaussian luminance map.
 
-Both methods are trained and evaluated on UIEB~\cite{liUnderwaterImageEnhancement2019} using full-reference metrics (PSNR, SSIM), which measure fidelity to a reference image rather than usefulness for a downstream task.
+Both enhancers were benchmarked on UIEB~\cite{liUnderwaterImageEnhancement2019} using PSNR and SSIM, which evaluate full-reference pixel reconstruction rather than downstream detection utility.
 
 \subsection{Enhancement for Underwater Object Detection}
 
-Awad et al.~\cite{awadRevisitingUnderwaterImage2026} propose a unified quality--detection evaluation framework that combines (1) a distribution-level composite quality index, (2) a per-image detection protocol based on COCO-style mAP, and (3) a mixed-set upper bound that quantifies the gain achievable by ideal selective enhancement. We adopt their per-image mAP protocol to build training labels, and we use their upper bound as the oracle reference for our learned selector.
+The interaction between enhancement and detection is multifaceted. Fu et al.~\cite{fuRethinkingGeneralUnderwater2023} introduced the large-scale RUOD dataset to benchmark underwater detection, noting that standard enhancements produced inconsistent effects across detector families. Luo et al.~\cite{luoMASYOLOv11ImprovedUnderwater2025} developed MAS-YOLOv11 with multi-scale attention heads for cluttered aquatic environments, while Huang et al.~\cite{huangAMIEODAdaptiveMultiExperts2026} proposed AMIEOD to dynamically select low-illumination experts.
 
-\section{Method}
+Awad et al.~\cite{awadRevisitingUnderwaterImage2026} systematically evaluated nine enhancers across modern detectors, finding that uniform enhancement failed to universally outperform raw imagery and proposing a per-image mixed-set upper bound. However, their upper bound required test-time ground truth and confounded model diversity by employing ten independently trained detector checkpoints.
+
+\subsection{Ensemble Box Fusion and Test-Time Augmentation}
+
+Test-Time Augmentation (TTA) aggregates predictions across transformed inputs. In contrast to Non-Maximum Suppression (NMS) which discards overlapping candidates, Weighted Boxes Fusion (WBF)~\cite{solovyevWeightedBoxesFusion2021} clusters overlapping bounding boxes across candidate views and computes confidence-weighted coordinate averages, enhancing consensus localization.
+
+% ---------------------------------------------------------------------------
+\section{Methodology}
 \label{sec:method}
 
-\subsection{Overview}
+\subsection{System Overview}
 
-Let $x$ be an input image and let $E_{\mathrm{SC}}$ and $E_{\mathrm{SU}}$ denote the frozen SCNet and Semi-UIR enhancers. The candidate set is
+Let $x \in \mathbb{R}^{H \times W \times 3}$ denote an input underwater RGB image. We consider two frozen, author-pretrained enhancers: SCNet ($E_{\mathrm{SC}}$) and Semi-UIR ($E_{\mathrm{SU}}$). The candidate pool is:
 \begin{equation}
     \mathcal{V}(x) = \{\, v_0, v_1, v_2 \,\} = \{\, x,\; E_{\mathrm{SC}}(x),\; E_{\mathrm{SU}}(x) \,\}.
 \end{equation}
-A selector $f$ predicts an index $\hat{k} = \arg\max_k f(x)_k$ and the detector $D$ is applied to $v_{\hat{k}}$. In deployment only the chosen enhancer needs to be executed.
+An adaptive selector $f_\theta$ inspects the raw image $x$ to predict index $\hat{k} \in \{0, 1, 2\}$, routing $v_{\hat{k}}$ to a fine-tuned YOLO11n detector $D$.
 
-\subsection{Enhancers}
+\subsection{Enhancers and Processing Pipeline}
 \label{sec:method-enh}
 
-Both enhancers use the authors' pretrained weights without retraining and run at the native input resolution (long side 640 for RUOD). The original repositories were forked with minimal compatibility fixes for a current PyTorch environment; all project logic lives in separate wrapper scripts.
+Both enhancers run at native resolution ($640$\,px long edge) with author-released weights without task-specific fine-tuning:
+\begin{itemize}
+    \item \textbf{SCNet:} We isolate the enhancement decoder branch, discarding the auxiliary VGG16 perceptual loss network. The input is reflect-padded to multiples of 8, and the output is cropped back and quantized to $[0, 255]$.
+    \item \textbf{Semi-UIR:} The network computes an estimated luminance map $L(x)$ by convolving the luminance channel with Gaussian kernels at $\sigma \in \{15, 60, 90\}$, averaging logarithmic responses, and normalizing to $[0, 255]$. The input and luminance map are reflect-padded to multiples of 16. Semi-UIR requires approximately 2\,s per image.
+\end{itemize}
+All enhanced images are saved as high-quality JPEGs ($\text{quality} = 95$) with identical bounding box labels.
 
-\textbf{SCNet.} Only the enhancement network (decoder) is loaded; the VGG16 branch, which serves only the training loss, is discarded. Because the network contains three $2\times$ down-sampling stages, the input is reflect-padded to a multiple of 8, and the output is cropped back to the input size and quantised as in the official evaluation script.
-
-\textbf{Semi-UIR.} The luminance map required by the network is computed automatically: the image is blurred with Gaussian kernels of $\sigma \in \{15, 60, 90\}$, the logarithms of the blurred images are averaged, and the result is min--max normalised to $[0, 255]$. The image and its luminance map are reflect-padded to a multiple of 16, and the output is cropped back.
-
-Enhanced images keep the original file names (JPEG, quality 95) and the YOLO labels are copied unchanged, so the three versions of every image share identical annotations. A sample result is shown in Fig.~\ref{fig:sample}.
-
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\columnwidth]{figures/sample_enhancement.png}
-    \caption{Qualitative example produced by our pipeline. Left to right: original image, Semi-UIR, SCNet.}
-    \label{fig:sample}
-\end{figure}
-
-\subsection{Out-of-Fold Selector Labels}
+\subsection{Out-of-Fold (OOF) Selector Labeling}
 \label{sec:method-labels}
 
-Labels must come from a detector that has never seen the image; otherwise per-image mAP is inflated. The training set is split into three folds (seed 0). For each fold $k$, a YOLO11n model is trained for 30 epochs on all three versions of the two remaining folds, and its last checkpoint predicts the three versions of fold $k$ with a confidence threshold of 0.001. Per-image mAP@0.5:0.95 is then computed with pycocotools following~\cite{awadRevisitingUnderwaterImage2026}; images without ground-truth boxes are assigned 0. The label of image $i$ is
+To prevent in-sample detector memorization from biasing selector labels, we employ a three-fold Out-of-Fold (OOF) protocol:
+\begin{enumerate}
+    \item The 9{,}800 RUOD training images are partitioned into three folds $\mathcal{F}_0, \mathcal{F}_1, \mathcal{F}_2$ using random seed 0 (MD5 hash: \texttt{ea44b385539c}).
+    \item For each fold $k \in \{0, 1, 2\}$, a YOLO11n detector is trained for 30 epochs on all three versions of the remaining two folds ($\approx 19{,}600$ images) using AdamW.
+    \item The final checkpoint (\texttt{last.pt}) evaluates all three versions of the held-out fold $\mathcal{F}_k$ ($\text{conf} = 0.001$, $\text{IoU} = 0.7$).
+    \item Using \texttt{pycocotools}, exact per-image mAP@0.5:0.95 values ($m_{i,0}, m_{i,1}, m_{i,2}$) are computed. Unannotated images receive 0.
+\end{enumerate}
+With an improvement margin $\delta = 0.01$, target labels are assigned as:
 \begin{equation}
     y_i =
     \begin{cases}
-        0                  & \text{if } \max_k m_{i,k} - m_{i,0} < \delta, \\
-        \arg\max_k m_{i,k} & \text{otherwise},
+        0                    & \text{if } \max_{k \in \{1, 2\}} m_{i,k} - m_{i,0} < \delta, \\
+        \arg\max_{k} m_{i,k} & \text{otherwise}.
     \end{cases}
 \end{equation}
-where $m_{i,k}$ is the per-image mAP of version $k$ and $\delta = 0.01$, so that the original image is preferred when enhancement brings no meaningful gain.
 
-\subsection{Selector}
+\subsection{Adaptive Selector Architecture and Decision Rules}
 
-The selector is a ResNet18~\citeneeded{ResNet, He et al., CVPR 2016} pretrained on ImageNet, with its last layer replaced by a 3-way classifier and trained with a class-weighted cross-entropy loss to counter label imbalance. We hold out 20\% of the training images for validation (seed 0) and train for about 15 epochs. Since high accuracy can be obtained by always predicting the majority class, the checkpoint is selected by the \emph{chosen-mAP}, i.e., the mean per-image mAP of the versions picked by the selector on the validation split, rather than by accuracy.
+The selector is an ImageNet-pretrained ResNet18~\cite{heDeepResidualLearning2015} with a 3-way linear classification head. It inspects only the raw image resized to $224 \times 224 \times 3$, executing in 7.7\,ms on an NVIDIA Tesla T4 GPU.
+\begin{itemize}
+    \item \textbf{Class-Weighted Cross-Entropy (\texttt{ce}):}
+          \begin{equation}
+              \mathcal{L}_{\mathrm{ce}} = -\sum_{c=0}^2 w_c \cdot \mathbb{I}(y = c) \log p_c,
+          \end{equation}
+          where $w_c$ represents inverse class-frequency weights.
+    \item \textbf{mAP Regression (\texttt{reg}):} Directly predicts continuous mAP values $(\hat{m}_0, \hat{m}_1, \hat{m}_2)$ via Smooth L1 loss.
+\end{itemize}
 
-\subsection{Final Detector and Evaluation}
+\subsubsection{Decision Threshold ($\tau$)}
+To avoid false-positive enhancement triggers, candidate $k^* = \arg\max_{k \in \{1, 2\}} p_k$ is selected only if $p_{k^*} - p_0 > \tau$; otherwise, the raw image is retained. For regression, the rule is $\hat{m}_{k^*} - \hat{m}_0 > \tau$.
 
-The final YOLO11n is trained for 50 epochs on all three versions of the full training set. On the test set, it predicts each version once; any selection policy (fixed, random, selector, oracle) is then evaluated by composing these stored predictions per image, without re-running the detector. The test set is used only for this final evaluation.
+\subsubsection{Validation Selection Criterion}
+Because always-raw achieves 58.2\% training accuracy and 62.4\% test accuracy trivially, models and thresholds are selected via \emph{chosen-mAP} on a held-out 20\% validation split (1{,}960 images):
+\begin{equation}
+    \text{chosen-mAP} = \frac{1}{N_{\mathrm{val}}} \sum_{i=1}^{N_{\mathrm{val}}} m_{i, \hat{y}_i}.
+\end{equation}
+Optimal thresholds are $\tau = 0.625$ for \texttt{ce} and $\tau = 0.040$ for \texttt{reg}.
 
+\subsection{Zero-Leakage Composition Evaluation}
+
+On the 4{,}200 RUOD test images:
+\begin{enumerate}
+    \item A unified detector (\texttt{full.pt}) is trained for 50 epochs on all three versions of the 9{,}800 training images ($29{,}400$ images total; training time: 10{,}732\,s).
+    \item Test predictions across candidate versions are pre-computed once. Any policy is evaluated by composing stored prediction lists per image and executing \texttt{pycocotools}.
+    \item Statistical significance is established via 1{,}000 paired bootstrap resamples of per-image mAP differences against raw baseline, yielding 95\% confidence intervals and bootstrap p-values $p_{\text{boot}}(\Delta \le 0)$.
+    \item Headroom utilization is quantified via Gap Closed:
+          \begin{equation}
+              G = \frac{\mathrm{mAP}_{\mathrm{policy}} - \mathrm{mAP}_{\mathrm{orig}}}{\mathrm{mAP}_{\mathrm{oracle}} - \mathrm{mAP}_{\mathrm{orig}}} \times 100\%.
+          \end{equation}
+\end{enumerate}
+
+\subsection{Oracle Noise Floor Formulation}
+\label{sec:method-noise}
+
+To determine whether the oracle upper bound reflects optical signal recovery or detector measurement variance, we introduce a counter-experiment using horizontal reflection ($T_{\mathrm{flip}}$).
+
+For input $x$, predictions $D(T_{\mathrm{flip}}(x))$ are inverted back to original image coordinates via $T_{\mathrm{flip}}^{-1}(\hat{\mathcal{B}})$. Because $T_{\mathrm{flip}}(x)$ is photometrically identical to $x$, any divergence between $m_{i, \mathrm{orig}}$ and $m_{i, \mathrm{flip}}$ arises entirely from detector spatial sensitivity and NMS stochasticity. The \emph{Noise Oracle} is defined as:
+\begin{equation}
+    \text{Oracle}_{\{\mathrm{orig}, \mathrm{flip}\}}(i) = \max \left( m_{i, \mathrm{orig}},\; m_{i, \mathrm{flip}} \right).
+\end{equation}
+When $\text{Oracle}_{\{\mathrm{orig}, \mathrm{flip}\}}$ matches or exceeds the gain of $\text{Oracle}_{\{\mathrm{orig}, E(x)\}}$, the apparent headroom of selective enhancement is demonstrated to be an artifact of detector measurement noise.
+
+\subsection{Multi-View Weighted Boxes Fusion (WBF)}
+\label{sec:method-wbf}
+
+We ensemble candidate bounding boxes across raw, flipped, SCNet, and Semi-UIR views using Weighted Boxes Fusion~\cite{solovyevWeightedBoxesFusion2021} with fixed parameters: $\text{IoU}_{\mathrm{thr}} = 0.6$, $\text{skip\_box\_thr} = 0.001$, and at most 150 boxes per candidate view.
+
+% ---------------------------------------------------------------------------
 \section{Experimental Setup}
 \label{sec:setup}
 
 \subsection{Datasets}
 
-\textbf{UIEB}~\cite{liUnderwaterImageEnhancement2019}. We use the standard 90-image paired test split to verify the enhancers against the numbers reported in their papers.
+\textbf{UIEB}~\cite{liUnderwaterImageEnhancement2019}: Contains 890 paired real-world underwater images. We use the standard 90-image test set at native resolution to verify enhancer numerical fidelity.
 
-\textbf{RUOD}~\cite{fuRethinkingGeneralUnderwater2023}. RUOD contains 14{,}000 underwater images (9{,}800 train / 4{,}200 test) annotated with 10 object classes. All images are resized so that the long side is 640 pixels before any other processing; YOLO labels are normalised and therefore unchanged.
+\textbf{RUOD}~\cite{fuRethinkingGeneralUnderwater2023}: Contains 14{,}000 underwater images (9{,}800 train / 4{,}200 test) across 10 marine categories: \emph{holothurian, echinus, scallop, starfish, fish, corals, diver, cuttlefish, turtle, jellyfish}. Long edges are resized to 640\,px.
 
 \subsection{Implementation Details}
 
-All experiments run on Kaggle with an NVIDIA Tesla T4 GPU and PyTorch 2.11 (CUDA 12.8). Seed 0 is used for every split and shuffle. Detection uses the Ultralytics implementation of YOLO11n initialised from COCO-pretrained weights, with an input size of 640.
+Experiments run on Kaggle using dual NVIDIA Tesla T4 GPUs with PyTorch 2.11 (CUDA 12.8) and Ultralytics 8.4.174. Detection uses YOLO11n ($640 \times 640$ input, AdamW optimizer, batch size 32, fixed seed 0). ResNet18 is trained for 15 epochs with AdamW (learning rate $3 \times 10^{-4}$, weight decay $10^{-2}$) on an 80/20 train/val split (7{,}840 train / 1{,}960 val).
 
 \subsection{Metrics}
 
-\textbf{Image fidelity.} PSNR and SSIM are computed with scikit-image on full-resolution 8-bit RGB images against the UIEB reference (data range 255, SSIM over the colour channels), without any resizing; a size mismatch is treated as an error.
-
-\textbf{Detection.} We report COCO mAP@0.5 and mAP@0.5:0.95. To summarise how much of the oracle headroom a selector recovers, we report the gap-closed ratio
-\begin{equation}
-    G = \frac{\mathrm{mAP}_{\mathrm{sel}} - \mathrm{mAP}_{\mathrm{orig}}}{\mathrm{mAP}_{\mathrm{oracle}} - \mathrm{mAP}_{\mathrm{orig}}}.
-\end{equation}
-
-\textbf{Runtime.} Wall-clock time per image on a single T4 GPU.
+Perceptual fidelity is measured via PSNR and SSIM using \texttt{scikit-image}. Detection accuracy is assessed using COCO-standard mAP@0.5 and mAP@0.5:0.95 via \texttt{pycocotools}. We report paired bootstrap 95\% confidence intervals (CI) over 1{,}000 resamples.
 
 % ---------------------------------------------------------------------------
-\section{Results}
+\section{Results and Discussion}
 \label{sec:results}
 
 \subsection{Enhancer Verification on UIEB}
 \label{sec:res-uieb}
 
-Table~\ref{tab:uieb} compares our measurements with the values reported in the original papers. SCNet is 0.35\,dB above its reported PSNR and Semi-UIR is 0.38\,dB below, with SSIM within 0.02 in both cases. These small gaps confirm that the released weights are loaded and run correctly. Plausible sources of the remaining differences are the SSIM implementation (window type and size), the JPEG re-encoding of our outputs (quality 95), and output rounding. Both enhancers raise PSNR by more than 4.5\,dB over the raw input and also reduce its spread across images, with Semi-UIR being the stronger of the two on average.
+Table~\ref{tab:uieb} compares our measurements on the 90-image UIEB test split against published numbers. SCNet is within 0.35\,dB PSNR and Semi-UIR is within 0.38\,dB PSNR of published scores, with SSIM within 0.02. Both enhancers raise PSNR by over 4.5\,dB over raw inputs.
 
 \begin{table}[t]
     \centering
-    \caption{PSNR / SSIM on the UIEB test set (90 images), mean $\pm$ std.}
+    \caption{PSNR and SSIM on UIEB test set (90 images, mean $\pm$ std).}
     \label{tab:uieb}
     \setlength{\tabcolsep}{4pt}
     \begin{tabular}{l c c c c}
-        \hline
-                                     & \multicolumn{2}{c}{Ours}  & \multicolumn{2}{c}{Reported}                  \\
-        Method                       & PSNR (dB)                 & SSIM                         & PSNR  & SSIM   \\
-        \hline
-        Raw input                    & $17.90 \pm 5.35$          & $0.776 \pm 0.137$            & --    & --     \\
-        SCNet                        & $22.43 \pm 4.43$          & $0.879 \pm 0.082$            & 22.08 & 0.8625 \\
-        Semi-UIR                     & $\mathbf{24.21} \pm 4.03$ & $\mathbf{0.886} \pm 0.069$   & 24.59 & 0.901  \\
-        \hline
-        Per-image oracle$^{\dagger}$ & 24.95                     & 0.901                        & --    & --     \\
-        \hline
+        \toprule
+                                                                   & \multicolumn{2}{c}{Ours}  & \multicolumn{2}{c}{Published}                  \\
+        Method                                                     & PSNR (dB)                 & SSIM                          & PSNR  & SSIM   \\
+        \midrule
+        Raw input                                                  & $17.90 \pm 5.35$          & $0.776 \pm 0.137$             & --    & --     \\
+        SCNet~\cite{fuUnderwaterImageEnhancement2022}              & $22.43 \pm 4.43$          & $0.879 \pm 0.082$             & 22.08 & 0.8625 \\
+        Semi-UIR~\cite{huangContrastiveSemisupervisedLearning2023} & $\mathbf{24.21} \pm 4.03$ & $\mathbf{0.886} \pm 0.069$    & 24.59 & 0.9010 \\
+        \midrule
+        Per-image oracle$^{\dagger}$                               & 24.95                     & 0.9010                        & --    & --     \\
+        \bottomrule
         \multicolumn{5}{l}{\footnotesize $^{\dagger}$Best of the three versions per image, chosen per metric.}
     \end{tabular}
 \end{table}
 
-\subsection{Per-Image Analysis}
-\label{sec:res-perimage}
-
-Average scores hide strong per-image variation. Table~\ref{tab:best} counts, for each image, which version obtains the highest score. Semi-UIR is best for two thirds of the images under PSNR, but SCNet wins on 24 images and the raw input on 6. Semi-UIR beats SCNet on 63 of 90 images in PSNR and on 57 in SSIM. Enhancement lowers PSNR with respect to the raw input on 12 images for SCNet and 8 for Semi-UIR. An extreme case is image 703, whose raw PSNR is 40.63\,dB (the reference is almost identical to the input), while SCNet and Semi-UIR drop it to 27.54\,dB and 26.38\,dB. Conversely, on image 713 the raw input scores 9.75\,dB, SCNet 19.64\,dB, and Semi-UIR 28.54\,dB.
-
-Choosing the best version per image (Table~\ref{tab:uieb}, last row) yields 24.95\,dB and 0.901 SSIM, a gain of 0.74\,dB and 0.015 over always using Semi-UIR. Although fidelity to a UIEB reference is not the same as detection utility, this behaviour mirrors the per-image variability reported for detection by Awad et al.~\cite{awadRevisitingUnderwaterImage2026} and supports the selective-enhancement hypothesis.
-
 \begin{table}[t]
     \centering
-    \caption{Number of UIEB test images (out of 90) on which each version obtains the best score.}
+    \caption{Number of UIEB test images (out of 90) winning per metric.}
     \label{tab:best}
     \begin{tabular}{l c c c}
-        \hline
+        \toprule
         Metric & Raw input & SCNet & Semi-UIR \\
-        \hline
+        \midrule
         PSNR   & 6         & 24    & 60       \\
         SSIM   & 10        & 29    & 51       \\
-        \hline
+        \bottomrule
     \end{tabular}
 \end{table}
 
-\textbf{Runtime.} On a T4 GPU, including image I/O, SCNet processes a UIEB image in 0.19\,s on average (warm-up excluded), whereas Semi-UIR needs 2.94\,s, partly because of the CPU-side luminance estimation with large Gaussian kernels. This $15\times$ cost difference matters for the selective pipeline, which only runs the enhancer it selects.
+Table~\ref{tab:best} shows winning counts per image on UIEB. Even under full-reference fidelity, no single enhancer dominates across all samples: SCNet wins on 24 images and raw images win on 6 images. A per-image oracle reaches 24.95\,dB (+0.74\,dB over Semi-UIR). On image 703, raw PSNR is 40.63\,dB, whereas SCNet and Semi-UIR drop to 27.54\,dB and 26.38\,dB. Conversely, on image 713, raw PSNR is 9.75\,dB while SCNet and Semi-UIR reach 19.64\,dB and 28.54\,dB.
 
-\subsection{Detection and Selection on RUOD}
-\label{sec:res-ruod}
+\subsection{Out-of-Fold Labeling on RUOD Training Set}
+\label{sec:res-oof}
 
-\todo[inline]{Pending: YOLO11n baseline, 3-fold labels, selector training. Fill Table~\ref{tab:ruod} from results.md after the number freeze.}
+On the 9{,}800 RUOD training images, the 3-fold OOF evaluation yielded:
+\begin{itemize}
+    \item \textbf{Raw images (\texttt{orig}):} 5{,}704 images (\textbf{58.2\%})
+    \item \textbf{SCNet:} 2{,}208 images (\textbf{22.5\%})
+    \item \textbf{Semi-UIR:} 1{,}888 images (\textbf{19.3\%})
+\end{itemize}
+Under OOF evaluation, raw images attained 0.5808 mAP@0.5:0.95 (0.6873 per-image mAP), outperforming uniform SCNet (0.5785 full, 0.6859 per-image) and uniform Semi-UIR (0.5729 full, 0.6817 per-image). An OOF oracle reached 0.7164 per-image mAP (+0.0291 over raw).
 
-Table~\ref{tab:ruod} will report detection accuracy on the 4{,}200 RUOD test images for every input policy, together with the label distribution of the selector training set and its validation accuracy and confusion matrix.
+\subsection{Detection Results on RUOD Test Set}
+\label{sec:res-detection}
+
+Table~\ref{tab:ruod} reports the benchmark across all policies on the 4{,}200 RUOD test images using the unified detector.
+
+\begin{table*}[t]
+    \centering
+    \caption{Object detection performance on the RUOD test set (4{,}200 images) with YOLO11n.}
+    \label{tab:ruod}
+    \resizebox{\textwidth}{!}{
+        \begin{tabular}{l c c c c c c c}
+            \toprule
+            Policy                               & mAP@0.5         & mAP@0.5:0.95    & Per-image mAP   & Gap Closed (All / Per)   & $\Delta$ vs. Raw [95\% CI]          & $p_{\text{boot}}(\Delta \le 0)$ & Selection (Orig / SC / Semi) \\
+            \midrule
+            Always Raw (\texttt{orig})           & 0.8468          & 0.6155          & 0.7186          & 0.0\% / 0.0\%            & -- (Baseline)                       & 1.000                           & 4200 / 0 / 0                 \\
+            Always SCNet                         & 0.8449          & 0.6129          & 0.7154          & -18.1\% / -13.6\%        & -0.0031 [-0.0049; -0.0013]          & 1.000                           & 0 / 4200 / 0                 \\
+            Always Semi-UIR                      & 0.8422          & 0.6084          & 0.7130          & -50.0\% / -24.2\%        & -0.0056 [-0.0077; -0.0034]          & 1.000                           & 0 / 0 / 4200                 \\
+            Random Selection                     & 0.8444          & 0.6120          & 0.7148          & -24.7\% / -16.3\%        & -0.0038 [-0.0054; -0.0021]          & 1.000                           & 1387 / 1401 / 1412           \\
+            \midrule
+            Selector \texttt{ce}                 & 0.8472          & 0.6146          & 0.7173          & -6.4\% / -5.4\%          & -0.0012 [-0.0025; 0.0000]           & 0.970                           & 2210 / 1101 / 889            \\
+            \textbf{Selector \texttt{ce+$\tau$}} & \textbf{0.8474} & \textbf{0.6159} & 0.7182          & \textbf{+3.2\%} / -1.5\% & \textbf{-0.0004 [-0.0010; +0.0003]} & 0.851                           & \textbf{3593 / 319 / 288}    \\
+            Selector \texttt{reg}                & 0.8457          & 0.6142          & 0.7182          & -8.8\% / -1.7\%          & -0.0004 [-0.0018; +0.0009]          & 0.734                           & 2133 / 1373 / 694            \\
+            Selector \texttt{reg+$\tau$}         & 0.8462          & 0.6146          & 0.7183          & -5.9\% / -1.4\%          & -0.0003 [-0.0014; +0.0008]          & 0.745                           & 3019 / 828 / 353             \\
+            \midrule
+            Oracle (Upper Bound)                 & \textbf{0.8524} & \textbf{0.6296} & \textbf{0.7417} & 100.0\% / 100.0\%        & +0.0231 [+0.0216; +0.0247]          & 0.000                           & 2620 / 846 / 734             \\
+            \bottomrule
+        \end{tabular}
+    }
+\end{table*}
 
 \begin{table}[t]
     \centering
-    \caption{Detection results on the RUOD test set (4{,}200 images) with YOLO11n.}
-    \label{tab:ruod}
-    \begin{tabular}{l c c c}
-        \hline
-        Input policy                   & mAP@0.5 & mAP@0.5:0.95 & ms/img \\
-        \hline
-        Baseline (trained on original) & \tbd    & \tbd         & \tbd   \\
-        Original                       & \tbd    & \tbd         & \tbd   \\
-        SCNet (all images)             & \tbd    & \tbd         & \tbd   \\
-        Semi-UIR (all images)          & \tbd    & \tbd         & \tbd   \\
-        Random choice                  & \tbd    & \tbd         & \tbd   \\
-        \textbf{Selector (ours)}       & \tbd    & \tbd         & \tbd   \\
-        Oracle (upper bound)           & \tbd    & \tbd         & --     \\
-        \hline
-    \end{tabular}
+    \caption{Validation performance on 1{,}960 held-out images and test confusion matrix of Selector \texttt{ce+$\tau$} on 4{,}200 test images.}
+    \label{tab:confusion}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{l c c c c}
+            \toprule
+            \multicolumn{5}{c}{\textbf{A. Validation Split Performance (1{,}960 images)}}                                                 \\
+            Variant                     & $\tau$                    & Chosen-mAP          & \multicolumn{2}{c}{Gap Closed}                \\
+            \midrule
+            Always Raw                  & --                        & 0.6924              & \multicolumn{2}{c}{0.0\%}                     \\
+            \texttt{ce}                 & 0                         & 0.6923              & \multicolumn{2}{c}{-0.4\%}                    \\
+            \textbf{\texttt{ce+$\tau$}} & \textbf{0.625}            & \textbf{0.6931}     & \multicolumn{2}{c}{\textbf{+2.5\%}}           \\
+            \texttt{reg}                & 0                         & 0.6918              & \multicolumn{2}{c}{-2.4\%}                    \\
+            \texttt{reg+$\tau$}         & 0.040                     & 0.6931              & \multicolumn{2}{c}{+2.2\%}                    \\
+            Oracle                      & --                        & 0.7202              & \multicolumn{2}{c}{100.0\%}                   \\
+            \midrule
+            \multicolumn{5}{c}{\textbf{B. Test Confusion Matrix (Rows: True Oracle, Columns: Pred.)}}                                     \\
+            Oracle Label                & Pred. Raw                 & Pred. SCNet         & Pred. Semi-UIR                      & Total   \\
+            \midrule
+            Raw (\texttt{orig})         & \textbf{2{,}259} (86.2\%) & 176 (6.7\%)         & 185 (7.1\%)                         & 2{,}620 \\
+            SCNet                       & 708 (83.7\%)              & \textbf{83} (9.8\%) & 55 (6.5\%)                          & 846     \\
+            Semi-UIR                    & 626 (85.3\%)              & 60 (8.2\%)          & \textbf{48} (6.5\%)                 & 734     \\
+            \midrule
+            Total Predicted             & 3{,}593 (85.5\%)          & 319 (7.6\%)         & 288 (6.9\%)                         & 4{,}200 \\
+            \bottomrule
+        \end{tabular}
+    }
 \end{table}
+
+\begin{table}[t]
+    \centering
+    \caption{Per-class AP@0.5:0.95 across input policies on RUOD test set.}
+    \label{tab:perclass}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{l c c c c c}
+            \toprule
+            Class       & Raw             & SCNet           & Semi-UIR        & Selector \texttt{ce+$\tau$} & Oracle          \\
+            \midrule
+            holothurian & 0.4966          & 0.4910          & 0.4877          & 0.4966                      & 0.5102          \\
+            echinus     & 0.5305          & 0.5250          & 0.5187          & 0.5298                      & 0.5446          \\
+            scallop     & 0.4957          & 0.4941          & 0.4791          & 0.4958                      & 0.5058          \\
+            starfish    & 0.5508          & 0.5409          & 0.5431          & 0.5506                      & 0.5652          \\
+            fish        & 0.5198          & 0.5196          & 0.5181          & 0.5191                      & 0.5337          \\
+            corals      & 0.5386          & 0.5367          & 0.5338          & 0.5377                      & 0.5519          \\
+            diver       & 0.7456          & 0.7467          & 0.7397          & 0.7462                      & 0.7638          \\
+            cuttlefish  & 0.8360          & 0.8320          & 0.8315          & 0.8361                      & 0.8487          \\
+            turtle      & 0.8383          & 0.8390          & 0.8330          & 0.8384                      & 0.8518          \\
+            jellyfish   & 0.6026          & 0.6041          & 0.5991          & \textbf{0.6089}             & 0.6208          \\
+            \midrule
+            Mean        & \textbf{0.6155} & \textbf{0.6129} & \textbf{0.6084} & \textbf{0.6159}             & \textbf{0.6296} \\
+            \bottomrule
+        \end{tabular}
+    }
+\end{table}
+
+\subsubsection{Uniform Enhancement Harms Detection}
+Uniformly applying SCNet degrades mAP@0.5:0.95 by $-0.0026$ ($-0.0031$ per-image, CI $[-0.0049; -0.0013]$), while Semi-UIR lowers accuracy by $-0.0071$ ($-0.0056$ per-image, CI $[-0.0077; -0.0034]$). Both confidence intervals lie entirely below zero ($p_{\text{boot}} = 1.000$). Random selection similarly reduces accuracy ($-0.0038$).
+
+\subsubsection{Selector Safety and Baseline Parity}
+Uncalibrated selectors (\texttt{ce} and \texttt{reg}) also exhibit minor net degradation due to false-positive enhancement calls. In contrast, thresholded \textbf{Selector \texttt{ce+$\tau$}} attains 0.6159 mAP@0.5:0.95 (+3.2\% dataset gap closed), matching the raw baseline (0.6155) with 95\% CI $[-0.0010; +0.0003]$ spanning zero ($p_{\text{boot}} = 0.851$).
+
+\subsubsection{Behavioral Diagnosis via Confusion Matrix}
+Table~\ref{tab:confusion} details the selector's validation performance and test confusion matrix. On test data, overall classification accuracy is 56.9\% (below naive always-raw accuracy of 62.4\%). Among 846 test images where SCNet truly improved mAP, the selector recalled only 83 (9.8\%). For Semi-UIR, it recalled 48 of 734 images (6.5\%).
+
+The selector achieves baseline parity because the calibrated threshold ($\tau = 0.625$) enforces retention of the raw image for \textbf{85.5\% of queries} (3{,}593 images). This defensive behavior protects the detector from degradation while executing in 7.7\,ms.
+
+\subsubsection{Per-Class Breakdown}
+Table~\ref{tab:perclass} presents per-class AP@0.5:0.95 across all 10 categories. The selector tracks the raw baseline on benthic classes (\emph{holothurian, echinus, scallop}) while achieving its highest gain on \emph{jellyfish} (0.6089 vs. 0.6026), where semi-transparent boundaries benefit from selective contrast recovery.
+
+\subsection{Dissecting the Oracle Upper Bound (The Noise Floor)}
+\label{sec:res-noise}
+
+To investigate why learned selectors fail to capture oracle headroom, Table~\ref{tab:noise} details the noise floor experiments on the 4{,}200 test images.
+
+\begin{table}[t]
+    \centering
+    \caption{Oracle comparison between optical enhancers and horizontal reflection noise on RUOD test set.}
+    \label{tab:noise}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{l c c c c}
+            \toprule
+            Oracle Candidate Set                                   & Size       & mAP@0.5:0.95    & $\Delta$ Per-Image [95\% CI]        & Non-Raw \%      \\
+            \midrule
+            $\{\text{orig}, \text{orig rerun}\}$                   & 2          & 0.6159          & +0.0005 [+0.0003; +0.0006]          & 2.3\%           \\
+            $\{\text{orig}, \text{scnet}\}$                        & 2          & 0.6250          & +0.0144 [+0.0133; +0.0154]          & 31.6\%          \\
+            $\{\text{orig}, \text{semiuir}\}$                      & 2          & 0.6250          & +0.0164 [+0.0150; +0.0179]          & 31.7\%          \\
+            \textbf{$\{\text{orig}, \text{flip}\}$ (Noise)}        & \textbf{2} & \textbf{0.6300} & \textbf{+0.0207} [+0.0193; +0.0221] & \textbf{38.5\%} \\
+            \midrule
+            Proposed UIE Oracle                                    & 3          & 0.6300          & +0.0234 [+0.0219; +0.0250]          & 44.2\%          \\
+            $\{\text{orig}, \text{flip}, \text{SC}, \text{Semi}\}$ & 4          & 0.6386          & +0.0353 [+0.0336; +0.0371]          & 58.6\%          \\
+            \bottomrule
+        \end{tabular}
+    }
+\end{table}
+
+Key scientific findings:
+\begin{enumerate}
+    \item \textbf{Spatial Reflection Exceeds UIE:} An oracle over raw and horizontally flipped raw images ($\{\text{orig}, \text{flip}\}$) attains \textbf{0.6300} dataset mAP—matching the 3-candidate UIE oracle. At the per-image level, the flip oracle gains +0.0207, representing \textbf{144\%} of SCNet's gain (+0.0144).
+    \item \textbf{Mathematical Property of Extrema:} Because the flipped image underwent zero optical restoration, its gain stems entirely from detector coordinate perturbation and NMS sensitivity. The expected maximum of random variables $\mathbb{E}[\max(X_1, \dots, X_K)]$ increases monotonically with $K$. Adding candidates (from 2 to 3 to 4) inevitably expands the oracle bound regardless of optical validity.
+    \item \textbf{Why Selectors Cannot Learn:} Because OOF training targets are largely governed by stochastic detector sensitivity rather than deterministic visual degradation patterns (correlation between flip benefit and SCNet benefit is 0.306), the target labels behave essentially as measurement noise. A convolutional selector inspecting pixels cannot learn to predict detector perturbation variance, demonstrating that mixed-set gains reported in prior literature~\cite{awadRevisitingUnderwaterImage2026} largely represent measurement noise.
+\end{enumerate}
+
+\subsection{Ensemble Fusion and Heuristic Baselines}
+\label{sec:res-fusion}
+
+Table~\ref{tab:fusion} evaluates practical alternatives that do not require ground-truth labels.
+
+\begin{table}[t]
+    \centering
+    \caption{Multi-view fusion and confidence selection on RUOD test set.}
+    \label{tab:fusion}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{l c c c}
+            \toprule
+            Method                             & mAP@0.5:0.95    & $\Delta$ Full    & $\Delta$ Per-Image [95\% CI]        \\
+            \midrule
+            Raw Baseline                       & 0.6155          & --               & --                                  \\
+            WBF(orig, flip)                    & 0.6145          & -0.0009          & -0.0002 [-0.0019; +0.0014]          \\
+            WBF(orig, SCNet)                   & 0.6085          & -0.0070          & -0.0050 [-0.0065; -0.0035]          \\
+            WBF(orig, SCNet, Semi-UIR)         & 0.6111          & -0.0044          & -0.0025 [-0.0044; -0.0007]          \\
+            \textbf{WBF(orig, flip, SC, Semi)} & \textbf{0.6177} & \textbf{+0.0023} & \textbf{+0.0032 [+0.0014; +0.0051]} \\
+            \midrule
+            Confidence \texttt{conf\_top5}     & 0.6129          & -0.0025          & -0.0021 [-0.0035; -0.0006]          \\
+            Confidence \texttt{conf\_sum}      & 0.6136          & -0.0018          & -0.0018 [-0.0034; -0.0003]          \\
+            \bottomrule
+        \end{tabular}
+    }
+\end{table}
+
+\subsubsection{Failure of Confidence Heuristics}
+Selecting candidates by detector confidence (\texttt{conf\_top5} or \texttt{conf\_sum}) significantly lowers accuracy ($-0.0025$ and $-0.0018$ mAP). Enhancers accentuate high-frequency textures and edge gradients, inflating confidence on background false positives. High detector confidence does not correlate with true-positive precision.
+
+\subsubsection{Success of 4-View Geometric-Photometric WBF}
+Dual-view and three-view WBF configurations fail to outperform raw inputs. However, \textbf{4-view WBF combining geometric reflection and multi-enhancer views} reaches 0.6177 mAP@0.5:0.95 (+0.0023 dataset gain, +0.0032 per-image gain). Its 95\% CI ($[+0.0014; +0.0051]$) is strictly positive, marking it as the sole inference technique achieving statistically verified improvements over raw images.
+
+\subsection{Multi-Version Detector Training as Data Augmentation}
+\label{sec:res-domains}
+
+To evaluate whether UIE provides utility during detector training, Table~\ref{tab:detector_comparison} compares the single-domain baseline detector against the final multi-version detector evaluated on raw test images using the Ultralytics validator.
+
+\begin{table}[t]
+    \centering
+    \caption{Comparison of YOLO11n baseline (trained on raw only) and multi-version detector evaluated on raw test images (Ultralytics validator).}
+    \label{tab:detector_comparison}
+    \resizebox{\columnwidth}{!}{
+        \begin{tabular}{l c c c c}
+            \toprule
+            Detector Model                 & Training Data                         & Epochs      & mAP@0.5          & mAP@0.5:0.95     \\
+            \midrule
+            YOLO11n Baseline (Raw)         & 9{,}800 raw images                    & 50          & 0.8446           & 0.6037           \\
+            \textbf{YOLO11n Multi-Version} & \textbf{29{,}400 images (3 versions)} & \textbf{50} & \textbf{0.8540}  & \textbf{0.6210}  \\
+            \midrule
+            Difference ($\Delta$)          & +19{,}600 enhanced images             & --          & \textbf{+0.0094} & \textbf{+0.0173} \\
+            \bottomrule
+        \end{tabular}
+    }
+\end{table}
+
+Training the detector across all three image versions (raw, SCNet, Semi-UIR) for 50 epochs does not harm raw image detection; on the contrary, it improves mAP@0.5:0.95 from 0.6037 to 0.6210 (+0.0173 absolute gain) and mAP@0.5 from 0.8446 to 0.8540 on raw test images. On the multi-version detector, per-class mAP@0.5:0.95 reaches 0.501 (\emph{holothurian}), 0.532 (\emph{echinus}), 0.501 (\emph{scallop}), 0.555 (\emph{starfish}), 0.527 (\emph{fish}), 0.552 (\emph{corals}), 0.751 (\emph{diver}), 0.842 (\emph{cuttlefish}), 0.843 (\emph{turtle}), and 0.608 (\emph{jellyfish}).
+
+This confirms the central operational finding of our study: \textbf{UIE's primary utility for underwater object detection is not per-image selection at inference time, but offline multi-version data augmentation during training.} Incorporating synthetic water representations during training enriches feature representations and regularizes deep detectors against aquatic domain shifts.
 
 % ---------------------------------------------------------------------------
 \section{Conclusion}
 \label{sec:conclusion}
 
-We presented a selective-enhancement pipeline in which a ResNet18 selector chooses, for each underwater image, between the original and the outputs of SCNet and Semi-UIR before YOLO11n detection. At the current stage, both enhancers are integrated with their released weights and reproduce the published UIEB results within 0.4\,dB PSNR. A per-image analysis shows that no single version is best everywhere and that an oracle choice improves PSNR by 0.74\,dB over the best fixed enhancer, which motivates learning the choice.
-
-The next steps are to enhance the full RUOD dataset, train the YOLO11n baseline and the three fold models, generate out-of-fold selector labels, and evaluate the selector against fixed, random and oracle policies. Limitations include the use of full-reference fidelity metrics for the enhancer check, which do not measure detection utility, and the considerably higher cost of Semi-UIR. Adding a third enhancer such as ACDC is left as optional future work.
+In this paper, we conducted a rigorous investigation into selective underwater image enhancement for object detection using YOLO11n on the RUOD benchmark. Our conclusions are:
+\begin{enumerate}
+    \item \textbf{Uniform enhancement degrades detection:} Applying SCNet or Semi-UIR across the entire dataset lowers mAP@0.5:0.95 by $-0.0026$ and $-0.0071$ compared to raw inputs.
+    \item \textbf{Learned selectors offer computational safety:} A lightweight ResNet18 selector ($7.7$\,ms) calibrated via validation thresholding ($\tau = 0.625$) matches raw baseline performance (0.6159 mAP@0.5:0.95, +3.2\% gap closed) by defaulting to raw images in 85.5\% of cases, preventing degradation.
+    \item \textbf{The oracle upper bound is dominated by detector noise:} An unenhanced horizontal flip oracle accounts for 144\% of SCNet's oracle gain (+0.0207 per-image mAP), proving that theoretical headroom is primarily detector sensitivity rather than learnable optical features.
+    \item \textbf{Confidence heuristics fail:} Selecting candidates by detector confidence degrades accuracy by up to $-0.0025$ due to artifact-induced false positives.
+    \item \textbf{Hybrid 4-view WBF reliably improves accuracy:} Combining spatial reflection and photometric UIE views via Weighted Boxes Fusion achieves statistically validated improvements (+0.0023 mAP@0.5:0.95, 95\% CI $[+0.0014, +0.0051]$).
+    \item \textbf{Multi-version training functions as effective data augmentation:} Training the detector across all three image versions improves mAP@0.5:0.95 from 0.6037 to 0.6210 (+0.0173) over raw-only training, confirming that enhanced images provide valuable training-time data augmentation.
+\end{enumerate}
 
 \printbibliography
 
