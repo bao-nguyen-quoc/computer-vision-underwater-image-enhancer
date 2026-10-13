@@ -16,7 +16,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>mincrossrefs</bcf:key>
-      <bcf:value>2</bcf:value>
+      <bcf:value>99</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minxrefs</bcf:key>
@@ -644,7 +644,9 @@
     <bcf:option datatype="boolean">eprint</bcf:option>
     <bcf:option datatype="boolean">related</bcf:option>
     <bcf:option datatype="boolean">subentry</bcf:option>
-    <bcf:option datatype="boolean">subentrycomp</bcf:option>
+    <bcf:option datatype="boolean">acronym</bcf:option>
+    <bcf:option datatype="boolean">series</bcf:option>
+    <bcf:option datatype="boolean">conference</bcf:option>
     <bcf:option datatype="boolean">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="integer">mincrossrefs</bcf:option>
     <bcf:option datatype="integer">minxrefs</bcf:option>
@@ -727,7 +729,6 @@
     <bcf:option datatype="boolean">eprint</bcf:option>
     <bcf:option datatype="boolean">related</bcf:option>
     <bcf:option datatype="boolean">subentry</bcf:option>
-    <bcf:option datatype="boolean">subentrycomp</bcf:option>
     <bcf:option datatype="boolean">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="xml">labelalphatemplate</bcf:option>
     <bcf:option datatype="xml">translit</bcf:option>
@@ -817,7 +818,6 @@
     <bcf:option datatype="boolean" backendout="1">eprint</bcf:option>
     <bcf:option datatype="boolean" backendout="1">related</bcf:option>
     <bcf:option datatype="boolean" backendout="1">subentry</bcf:option>
-    <bcf:option datatype="boolean" backendout="1">subentrycomp</bcf:option>
     <bcf:option datatype="boolean" backendout="1">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="integer" backendin="maxcitenames,maxbibnames,maxsortnames">maxnames</bcf:option>
     <bcf:option datatype="integer" backendin="mincitenames,minbibnames,minsortnames">minnames</bcf:option>
@@ -878,6 +878,24 @@
   </bcf:datafieldset>
   <!-- SOURCEMAP -->
   <bcf:sourcemap>
+    <bcf:maps datatype="bibtex" level="user">
+      <bcf:map>
+        <bcf:map_step map_field_source="url" map_match="https?://(dx.)?doi.org/(.+)" map_field_target="doi"/>
+        <bcf:map_step map_field_source="doi" map_match="https?://(dx.)?doi.org/(.+)" map_replace="$2"/>
+      </bcf:map>
+      <bcf:map>
+        <bcf:map_step map_field_source="url" map_match="https?://(dx.)?doi.org/(.+)" map_final="1"/>
+        <bcf:map_step map_field_set="url" map_null="1"/>
+        <bcf:map_step map_field_set="urldate" map_null="1"/>
+      </bcf:map>
+    </bcf:maps>
+    <bcf:maps datatype="bibtex" level="style">
+      <bcf:map>
+        <bcf:map_step map_field_source="series" map_match="Lecture\s+Notes\s+in\s+Computer\s+Science" map_replace="LNCS"/>
+        <bcf:map_step map_field_source="series" map_match="Lecture\s+Notes\s+in\s+Artificial\s+Intelligence" map_replace="LNAI"/>
+        <bcf:map_step map_field_source="series" map_match="Lecture\s+Notes\s+in\s+Business\s+Information\s+Processing" map_replace="LNBIP"/>
+      </bcf:map>
+    </bcf:maps>
     <bcf:maps datatype="bibtex" level="driver">
       <bcf:map>
         <bcf:map_step map_field_set="day" map_null="1"/>
@@ -1355,6 +1373,8 @@
       <bcf:field fieldtype="field" format="xsv" datatype="option" skip_output="true">relatedoptions</bcf:field>
       <bcf:field fieldtype="field" datatype="range">pages</bcf:field>
       <bcf:field fieldtype="field" datatype="code">execute</bcf:field>
+      <bcf:field fieldtype="field" datatype="literal">acronym</bcf:field>
+      <bcf:field fieldtype="field" datatype="literal">shortseries </bcf:field>
     </bcf:fields>
     <bcf:entryfields>
       <bcf:field>abstract</bcf:field>
@@ -2118,6 +2138,10 @@
       <bcf:field>type</bcf:field>
       <bcf:field>venue</bcf:field>
     </bcf:entryfields>
+    <bcf:entryfields>
+      <bcf:field>acronym</bcf:field>
+      <bcf:field>shortseries </bcf:field>
+    </bcf:entryfields>
     <bcf:multiscriptfields>
       <bcf:field>abstract</bcf:field>
       <bcf:field>addendum</bcf:field>
@@ -2382,27 +2406,23 @@
     <bcf:citekey order="3" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
     <bcf:citekey order="4" intorder="1">awadRevisitingUnderwaterImage2026</bcf:citekey>
     <bcf:citekey order="5" intorder="1">fuRethinkingGeneralUnderwater2023</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">fuUnderwaterImageEnhancement2022</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">jocherUltralyticsYOLO2024</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">heDeepResidualLearning2016</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">solovyevWeightedBoxesFusion2021</bcf:citekey>
     <bcf:citekey order="9" intorder="1">fuUnderwaterImageEnhancement2022</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">jocherUltralyticsYOLO2024</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">heDeepResidualLearning2015</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">solovyevWeightedBoxesFusion2021</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">fuUnderwaterImageEnhancement2022</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">liUnderwaterImageEnhancement2019</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">fuRethinkingGeneralUnderwater2023</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">luoMASYOLOv11ImprovedUnderwater2025</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">huangAMIEODAdaptiveMultiExperts2026</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">awadRevisitingUnderwaterImage2026</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">solovyevWeightedBoxesFusion2021</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">heDeepResidualLearning2015</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">solovyevWeightedBoxesFusion2021</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">liUnderwaterImageEnhancement2019</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">fuRethinkingGeneralUnderwater2023</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">fuUnderwaterImageEnhancement2022</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">liUnderwaterImageEnhancement2019</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">fuRethinkingGeneralUnderwater2023</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">luoMASYOLOv11ImprovedUnderwater2025</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">huangAMIEODAdaptiveMultiExperts2026</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">awadRevisitingUnderwaterImage2026</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">solovyevWeightedBoxesFusion2021</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">heDeepResidualLearning2016</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">solovyevWeightedBoxesFusion2021</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">liUnderwaterImageEnhancement2019</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">fuRethinkingGeneralUnderwater2023</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">fuUnderwaterImageEnhancement2022</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">huangContrastiveSemisupervisedLearning2023</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
