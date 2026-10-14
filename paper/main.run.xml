@@ -51,12 +51,14 @@
     </requires>
     <requires type="static">
       <file>blx-dm.def</file>
+      <file>lncs.dbx</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
       <file>standard.bbx</file>
       <file>numeric.bbx</file>
-      <file>numeric-comp.bbx</file>
-      <file>numeric-comp.cbx</file>
+      <file>lncs.bbx</file>
+      <file>numeric.cbx</file>
+      <file>lncs.cbx</file>
       <file>biblatex.cfg</file>
       <file>english.lbx</file>
     </requires>

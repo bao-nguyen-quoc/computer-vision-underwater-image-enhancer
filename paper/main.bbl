@@ -74,36 +74,18 @@
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{In this paper, we conduct a comprehensive study of Underwater Object Detection (UOD). UOD has evolved into an attractive research field in the computer vision community in recent years. However, existing UOD datasets collected from specific underwater scenes are limited in the number of images, categories, resolution, and environmental challenges. These limitations can lead to the settings and effectiveness of models trained on existing datasets being impaired in general underwater situations. These limitations also constrain the comprehensive exploration of UOD. To alleviate these issues, we first present a new real-world UOD dataset called RUOD that places UOD in the context of general scene understanding. The dataset contains 14,000 high-resolution images, 74,903 labeled objects, and 10 common aquatic categories. The dataset also has various marine objects and rich environmental challenges including haze-like effects, color casts, and light interference. Second, we conduct extensive and systematic experiments on RUOD to evaluate the development of general underwater scene detection from the perspective of algorithms, complex marine objects, and environmental challenges. The findings from these explorations highlight the challenges of UOD and suggest promising solutions and new directions for UOD. Finally, UOD in practice typically uses underwater image enhancement during preprocessing to improve image quality. We thus characterize object detection performance on enhanced images and find an effective auxiliary framework of image enhancement for UOD. Our dataset is available at https://github.com/dlut-dimt/RUOD.}
-      \field{day}{14}
-      \field{issn}{0925-2312}
+      \field{labeltitlesource}{title}
       \field{journaltitle}{Neurocomputing}
-      \field{month}{1}
-      \field{shortjournal}{Neurocomputing}
-      \field{shorttitle}{Rethinking General Underwater Object Detection}
-      \field{title}{Rethinking General Underwater Object Detection: {{Datasets}}, Challenges, and Solutions}
-      \field{urlday}{7}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{title}{Rethinking General Underwater Object Detection: Datasets, Challenges, and Solutions}
       \field{volume}{517}
       \field{year}{2023}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{243\bibrangedash 256}
       \range{pages}{14}
       \verb{doi}
       \verb 10.1016/j.neucom.2022.10.039
       \endverb
-      \verb{urlraw}
-      \verb https://www.sciencedirect.com/science/article/pii/S0925231222013169
-      \endverb
-      \verb{url}
-      \verb https://www.sciencedirect.com/science/article/pii/S0925231222013169
-      \endverb
-      \keyw{Benchmark,Image enhancement,Underwater object detection}
     \endentry
-    \entry{liUnderwaterImageEnhancement2019}{online}{}{}
+    \entry{liUnderwaterImageEnhancement2019}{article}{}{}
       \name{author}{7}{}{%
         {{hash=dee42d8c2aeae4d87b0ffb9f10b9ab19}{%
            family={Li},
@@ -153,34 +135,17 @@
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Underwater image enhancement has been attracting much attention due to its significance in marine engineering and aquatic robotics. Numerous underwater image enhancement algorithms have been proposed in the last few years. However, these algorithms are mainly evaluated using either synthetic datasets or few selected real-world images. It is thus unclear how these algorithms would perform on images acquired in the wild and how we could gauge the progress in the field. To bridge this gap, we present the first comprehensive perceptual study and analysis of underwater image enhancement using large-scale real-world images. In this paper, we construct an Underwater Image Enhancement Benchmark (UIEB) including 950 real-world underwater images, 890 of which have the corresponding reference images. We treat the rest 60 underwater images which cannot obtain satisfactory reference images as challenging data. Using this dataset, we conduct a comprehensive study of the state-of-the-art underwater image enhancement algorithms qualitatively and quantitatively. In addition, we propose an underwater image enhancement network (called Water-Net) trained on this benchmark as a baseline, which indicates the generalization of the proposed UIEB for training Convolutional Neural Networks (CNNs). The benchmark evaluations and the proposed Water-Net demonstrate the performance and limitations of state-of-the-art algorithms, which shed light on future research in underwater image enhancement. The dataset and code are available at https://li-chongyi.github.io/proj\_benchmark.html.}
-      \field{day}{26}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{month}{11}
-      \field{pubstate}{prepublished}
-      \field{title}{An {{Underwater Image Enhancement Benchmark Dataset}} and {{Beyond}}}
-      \field{urlday}{1}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
-      \field{year}{2019}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
+      \field{journaltitle}{IEEE Transactions on Image Processing}
+      \field{title}{An Underwater Image Enhancement Benchmark Dataset and Beyond}
+      \field{volume}{29}
+      \field{year}{2020}
+      \field{pages}{4376\bibrangedash 4389}
+      \range{pages}{14}
       \verb{doi}
-      \verb 10.48550/arXiv.1901.05495
+      \verb 10.1109/TIP.2019.2955241
       \endverb
-      \verb{eprint}
-      \verb 1901.05495
-      \endverb
-      \verb{urlraw}
-      \verb http://arxiv.org/abs/1901.05495
-      \endverb
-      \verb{url}
-      \verb http://arxiv.org/abs/1901.05495
-      \endverb
-      \keyw{Computer Science - Computer Vision and Pattern Recognition}
     \endentry
-    \entry{fuUnderwaterImageEnhancement2022}{online}{}{}
+    \entry{fuUnderwaterImageEnhancement2022}{article}{}{}
       \name{author}{5}{}{%
         {{hash=ba59419bca1d021d62f6d5357380cf1a}{%
            family={Fu},
@@ -221,34 +186,14 @@
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{We present a novel underwater image enhancement method termed SCNet to improve the image quality meanwhile cope with the degradation diversity caused by the water. SCNet is based on normalization schemes across both spatial and channel dimensions with the key idea of learning water type desensitized features. Specifically, we apply whitening to de-correlate activations across spatial dimensions for each instance in a mini-batch. We also eliminate channel-wise correlation by standardizing and re-injecting the first two moments of the activations across channels. The normalization schemes of spatial and channel dimensions are performed at each scale of the U-Net to obtain multi-scale representations. With such water type irrelevant encodings, the decoder can easily reconstruct the clean signal and be unaffected by the distortion types. Experimental results on two real-world underwater image datasets show that our approach can successfully enhance images with diverse water types, and achieves competitive performance in visual quality improvement.}
-      \field{day}{14}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{month}{3}
-      \field{pubstate}{prepublished}
-      \field{title}{Underwater {{Image Enhancement}} via {{Learning Water Type Desensitized Representations}}}
-      \field{urlday}{2}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{journaltitle}{arXiv preprint arXiv:2102.00676}
+      \field{title}{Underwater Image Enhancement via Learning Water Type Desensitized Representations}
       \field{year}{2022}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \verb{doi}
       \verb 10.48550/arXiv.2102.00676
       \endverb
-      \verb{eprint}
-      \verb 2102.00676
-      \endverb
-      \verb{urlraw}
-      \verb http://arxiv.org/abs/2102.00676
-      \endverb
-      \verb{url}
-      \verb http://arxiv.org/abs/2102.00676
-      \endverb
-      \keyw{Computer Science - Computer Vision and Pattern Recognition,Electrical Engineering and Systems Science - Image and Video Processing}
     \endentry
-    \entry{huangContrastiveSemisupervisedLearning2023}{online}{}{}
+    \entry{huangContrastiveSemisupervisedLearning2023}{inproceedings}{}{}
       \name{author}{5}{}{%
         {{hash=68f1b5e89b1e3c4b34293188102a2c81}{%
            family={Huang},
@@ -289,32 +234,14 @@
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Despite the remarkable achievement of recent underwater image restoration techniques, the lack of labeled data has become a major hurdle for further progress. In this work, we propose a mean-teacher based Semi-supervised Underwater Image Restoration (Semi-UIR) framework to incorporate the unlabeled data into network training. However, the naive mean-teacher method suffers from two main problems: (1) The consistency loss used in training might become ineffective when the teacher's prediction is wrong. (2) Using L1 distance may cause the network to overfit wrong labels, resulting in confirmation bias. To address the above problems, we first introduce a reliable bank to store the "best-ever" outputs as pseudo ground truth. To assess the quality of outputs, we conduct an empirical analysis based on the monotonicity property to select the most trustworthy NR-IQA method. Besides, in view of the confirmation bias problem, we incorporate contrastive regularization to prevent the overfitting on wrong labels. Experimental results on both full-reference and non-reference underwater benchmarks demonstrate that our algorithm has obvious improvement over SOTA methods quantitatively and qualitatively. Code has been released at https://github.com/Huang-ShiRui/Semi-UIR.}
-      \field{day}{4}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{month}{4}
-      \field{pubstate}{prepublished}
-      \field{title}{Contrastive {{Semi}}-Supervised {{Learning}} for {{Underwater Image Restoration}} via {{Reliable Bank}}}
-      \field{urlday}{6}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Contrastive Semi-Supervised Learning for Underwater Image Restoration via Reliable Bank}
       \field{year}{2023}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
+      \field{pages}{18145\bibrangedash 18155}
+      \range{pages}{11}
       \verb{doi}
-      \verb 10.48550/arXiv.2303.09101
+      \verb 10.1109/CVPR52729.2023.01739
       \endverb
-      \verb{eprint}
-      \verb 2303.09101
-      \endverb
-      \verb{urlraw}
-      \verb http://arxiv.org/abs/2303.09101
-      \endverb
-      \verb{url}
-      \verb http://arxiv.org/abs/2303.09101
-      \endverb
-      \keyw{Computer Science - Computer Vision and Pattern Recognition}
     \endentry
     \entry{awadRevisitingUnderwaterImage2026}{article}{}{}
       \name{author}{6}{}{%
@@ -349,9 +276,6 @@
            given={Timothy\bibnamedelima C.},
            giveni={T\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {Multidisciplinary Digital Publishing Institute}%
-      }
       \strng{namehash}{7997a2cbbd5153ab7caf7db9c0ae4dac}
       \strng{fullhash}{7e97b1af125e911eae9ea34fe02e8fd2}
       \strng{fullhashraw}{7e97b1af125e911eae9ea34fe02e8fd2}
@@ -363,37 +287,20 @@
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{Underwater images often suffer from severe color distortion, low contrast, and reduced visibility, motivating the widespread use of image enhancement as a preprocessing step for downstream computer vision tasks. However, recent studies have questioned whether enhancement actually improves object detection performance. In this work, we conduct a comprehensive and rigorous evaluation of nine state-of-the-art enhancement methods and their interactions with modern object detectors. We propose a unified evaluation framework that integrates (1) a distribution-level quality assessment using a composite quality index (Q-index), (2) a fine-grained per-image detection protocol based on COCO-style mAP, and (3) a mixed-set upper-bound analysis that quantifies the theoretical performance achievable through ideal selective enhancement. Our findings reveal that traditional image quality metrics do not reliably predict detection performance, and that dataset-level conclusions often overlook substantial image-level variability. Through per-image evaluation, we identify numerous cases in which enhancement significantly improves detection accuracy—primarily for low-quality inputs—while also demonstrating conditions under which enhancement degrades performance. The mixed-set analysis shows that selective enhancement can yield substantial gains over both original and fully enhanced datasets, establishing a new direction for designing enhancement models optimized for downstream vision tasks. This study provides the most comprehensive evidence to date that underwater image enhancement can be beneficial for object detection when evaluated at the appropriate granularity and guided by informed selection strategies. The data generated and code developed are publicly available.}
-      \field{issn}{2313-433X}
+      \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Imaging}
-      \field{langid}{english}
-      \field{month}{1}
       \field{number}{1}
-      \field{shorttitle}{Revisiting {{Underwater Image Enhancement}} for {{Object Detection}}}
-      \field{title}{Revisiting {{Underwater Image Enhancement}} for {{Object Detection}}: {{A Unified Quality}}–{{Detection Evaluation Framework}}}
-      \field{urlday}{6}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{title}{Revisiting Underwater Image Enhancement for Object Detection: A Unified Quality--Detection Evaluation Framework}
       \field{volume}{12}
       \field{year}{2026}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{18}
       \range{pages}{1}
       \verb{doi}
       \verb 10.3390/jimaging12010018
       \endverb
-      \verb{urlraw}
-      \verb https://www.mdpi.com/2313-433X/12/1/18
-      \endverb
-      \verb{url}
-      \verb https://www.mdpi.com/2313-433X/12/1/18
-      \endverb
-      \keyw{enhancement–detection interaction,image enhancement,image quality assessment,mAP analysis,object detection,per-image evaluation,underwater imaging}
     \endentry
     \entry{jocherUltralyticsYOLO2024}{software}{}{}
-      \name{author}{3}{}{%
+      \name{author}{2}{}{%
         {{hash=c5c5e5cd7f4f477f617289b32613deb0}{%
            family={Jocher},
            familyi={J\bibinitperiod},
@@ -404,26 +311,21 @@
            familyi={Q\bibinitperiod},
            given={Jing},
            giveni={J\bibinitperiod}}}%
-        {{hash=ec281637802454e8df4de72f3b1ee401}{%
-           family={Chaurasia},
-           familyi={C\bibinitperiod},
-           given={Ayush},
-           giveni={A\bibinitperiod}}}%
       }
-      \strng{namehash}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{fullhash}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{fullhashraw}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{bibnamehash}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{authorbibnamehash}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{authornamehash}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{authorfullhash}{1d270278cb86ffcfd6356ed5db820a38}
-      \strng{authorfullhashraw}{1d270278cb86ffcfd6356ed5db820a38}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \strng{namehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{fullhash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{fullhashraw}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{bibnamehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authorbibnamehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authornamehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authorfullhash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authorfullhashraw}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Ultralytics {YOLO}}
-      \field{version}{8.0.0}
+      \field{title}{Ultralytics {YOLO11}}
+      \field{version}{8.3.0}
       \field{year}{2024}
       \verb{urlraw}
       \verb https://github.com/ultralytics/ultralytics
@@ -432,7 +334,7 @@
       \verb https://github.com/ultralytics/ultralytics
       \endverb
     \endentry
-    \entry{heDeepResidualLearning2015}{online}{}{}
+    \entry{heDeepResidualLearning2016}{inproceedings}{}{}
       \name{author}{4}{}{%
         {{hash=6b4b60e909e78633945f3f9c9dc83e01}{%
            family={He},
@@ -455,9 +357,6 @@
            given={Jian},
            giveni={J\bibinitperiod}}}%
       }
-      \list{organization}{1}{%
-        {arXiv.org}%
-      }
       \strng{namehash}{6edb98fe38401d2fe4a026f5ce6e8451}
       \strng{fullhash}{42c4b52dc3a62cebabbc11c73e1afb53}
       \strng{fullhashraw}{42c4b52dc3a62cebabbc11c73e1afb53}
@@ -466,26 +365,17 @@
       \strng{authornamehash}{6edb98fe38401d2fe4a026f5ce6e8451}
       \strng{authorfullhash}{42c4b52dc3a62cebabbc11c73e1afb53}
       \strng{authorfullhashraw}{42c4b52dc3a62cebabbc11c73e1afb53}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We explicitly reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from considerably increased depth. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers---8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57\% error on the ImageNet test set. This result won the 1st place on the ILSVRC 2015 classification task. We also present analysis on CIFAR-10 with 100 and 1000 layers. The depth of representations is of central importance for many visual recognition tasks. Solely due to our extremely deep representations, we obtain a 28\% relative improvement on the COCO object detection dataset. Deep residual nets are foundations of our submissions to ILSVRC \& COCO 2015 competitions, where we also won the 1st places on the tasks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.}
-      \field{day}{10}
-      \field{langid}{english}
-      \field{month}{12}
-      \field{title}{Deep {{Residual Learning}} for {{Image Recognition}}}
-      \field{urlday}{12}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
-      \field{year}{2015}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/1512.03385v1
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/1512.03385v1
+      \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Deep Residual Learning for Image Recognition}
+      \field{year}{2016}
+      \field{pages}{770\bibrangedash 778}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1109/CVPR.2016.90
       \endverb
     \endentry
     \entry{solovyevWeightedBoxesFusion2021}{article}{}{}
@@ -514,41 +404,19 @@
       \strng{authornamehash}{716368ffcbf4a15fd391700bd71a3f40}
       \strng{authorfullhash}{716368ffcbf4a15fd391700bd71a3f40}
       \strng{authorfullhashraw}{716368ffcbf4a15fd391700bd71a3f40}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{In this work, we present a novel method for combining predictions of object detection models: weighted boxes fusion. Our algorithm utilizes confidence scores of all proposed bounding boxes to constructs the averaged boxes. We tested method on several datasets and evaluated it in the context of the Open Images and COCO Object Detection tracks, achieving top results in these challenges. The source code is publicly available at https://github.com/ZFTurbo/Weighted-Boxes-Fusion}
-      \field{eprintclass}{cs.CV}
-      \field{eprinttype}{arXiv}
-      \field{issn}{02628856}
+      \field{labeltitlesource}{title}
       \field{journaltitle}{Image and Vision Computing}
-      \field{month}{3}
-      \field{shortjournal}{Image and Vision Computing}
-      \field{shorttitle}{Weighted Boxes Fusion}
-      \field{title}{Weighted Boxes Fusion: {{Ensembling}} Boxes from Different Object Detection Models}
-      \field{urlday}{12}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{title}{Weighted Boxes Fusion: Ensembling Boxes from Different Object Detection Models}
       \field{volume}{107}
       \field{year}{2021}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{104117}
       \range{pages}{1}
       \verb{doi}
       \verb 10.1016/j.imavis.2021.104117
       \endverb
-      \verb{eprint}
-      \verb 1910.13302
-      \endverb
-      \verb{urlraw}
-      \verb http://arxiv.org/abs/1910.13302
-      \endverb
-      \verb{url}
-      \verb http://arxiv.org/abs/1910.13302
-      \endverb
-      \keyw{Computer Science - Computer Vision and Pattern Recognition}
     \endentry
     \entry{luoMASYOLOv11ImprovedUnderwater2025}{article}{}{}
       \name{author}{3}{}{%
@@ -568,9 +436,6 @@
            given={Qingqing},
            giveni={Q\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {Multidisciplinary Digital Publishing Institute}%
-      }
       \strng{namehash}{73a83c38edf3ebe9b88382753ce54481}
       \strng{fullhash}{73a83c38edf3ebe9b88382753ce54481}
       \strng{fullhashraw}{73a83c38edf3ebe9b88382753ce54481}
@@ -582,36 +447,19 @@
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{To address the challenges of underwater target detection, including complex background interference, light attenuation, severe occlusion, and overlap between targets, as well as the wide-scale variation in objects, we propose MAS-YOLOv11, an improved model integrating three key enhancements: First, we introduce the C2PSA\_MSDA module, which integrates multi-scale dilated attention (MSDA) into the C2PSA module of the backbone, enhancing multi-scale feature representation via dilated convolutions and cross-scale attention. Second, an adaptive spatial feature fusion detection head (ASFFHead) replaces the original head. By employing learnable spatial weighting parameters, ASFFHead adaptively fuses features across different scales, significantly improving the robustness of multi-scale object detection. Third, we introduce a Slide Loss function with dynamic sample weighting to enhance hard sample learning. By mapping the loss weights nonlinearly to detection confidence, this mechanism effectively enhances the overall detection accuracy. The experimental results demonstrate that the improved model yields significant performance advancements on the DUO dataset: the recall rate is enhanced by 3.7\%, the F1-score is elevated by 3\%, and the mAP@50 and mAP@50-95 attain values of 77.4\% and 55.1\%, respectively, representing increases of 3.5\% and 3.3\% compared to the baseline model. Furthermore, the model achieves an mAP@50 of 76\% on the RUOD dataset, which further corroborates its cross-domain generalization capability.}
-      \field{issn}{1424-8220}
+      \field{labeltitlesource}{title}
       \field{journaltitle}{Sensors}
-      \field{langid}{english}
-      \field{month}{6}
       \field{number}{11}
-      \field{shorttitle}{{{MAS-YOLOv11}}}
-      \field{title}{{{MAS-YOLOv11}}: {{An Improved Underwater Object Detection Algorithm Based}} on {{YOLOv11}}}
-      \field{urlday}{12}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{title}{{MAS-YOLOv11}: An Improved Underwater Object Detection Algorithm Based on {YOLOv11}}
       \field{volume}{25}
       \field{year}{2025}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{3433}
       \range{pages}{1}
       \verb{doi}
       \verb 10.3390/s25113433
       \endverb
-      \verb{urlraw}
-      \verb https://www.mdpi.com/1424-8220/25/11/3433
-      \endverb
-      \verb{url}
-      \verb https://www.mdpi.com/1424-8220/25/11/3433
-      \endverb
-      \keyw{attention mechanism,detection head,loss function,multi-scale feature learning,underwater object detection,YOLOv11}
     \endentry
-    \entry{huangAMIEODAdaptiveMultiExperts2026}{online}{}{}
+    \entry{huangAMIEODAdaptiveMultiExperts2026}{article}{}{}
       \name{author}{7}{}{%
         {{hash=df44a5941e2e1d057bb24c0e4248c143}{%
            family={Huang},
@@ -649,9 +497,6 @@
            given={Xiaohai},
            giveni={X\bibinitperiod}}}%
       }
-      \list{organization}{1}{%
-        {arXiv.org}%
-      }
       \strng{namehash}{af17200a0564db60bf53beca40caab0a}
       \strng{fullhash}{1265d82a4cb0e6c7faf2f6d1cf344345}
       \strng{fullhashraw}{1265d82a4cb0e6c7faf2f6d1cf344345}
@@ -664,25 +509,10 @@
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{abstract}{In multimedia application scenarios, images captured under low-illumination conditions often lead to lower accuracy in visual perception tasks compared to those taken in well-lit environments. To tackle this challenge, we propose AMIEOD, an image enhancement-enabled object detection framework for low-illumination scenes, where the two tasks are jointly optimized in a detection performance-oriented manner. Specifically, to fully exploit the information in poorly lit images, a Multi-Experts Image Enhancement Module (MEIEM) is proposed, which leverages diverse enhancement strategies. On this basis, aiming to better align the MEIEM with the detection task, we propose a Detection-Guided Regression Loss (DGRL) that utilizes the detection result to decide the regression target. Moreover, to dynamically select the most suitable enhancement strategy from MEIEM during inference, we construct an Expert Selection Module (ESM) guided by the proposed Detection-Guided Cross-Entropy (DGCE) loss, which formulates the optimization of ESM as a classification task. The improved method is well-matched with current detection algorithms to improve their performance in dim scenes. Extensive experiments on multiple datasets demonstrate that the proposed method significantly improves object detection accuracy in low-illumination conditions. Our code has been released at https://github.com/scujayfantasy/AMIEOD}
-      \field{day}{7}
-      \field{langid}{english}
-      \field{month}{5}
-      \field{shorttitle}{{{AMIEOD}}}
-      \field{title}{{{AMIEOD}}: {{Adaptive Multi-Experts Image Enhancement}} for {{Object Detection}} in {{Low-Illumination Scenes}}}
-      \field{urlday}{12}
-      \field{urlmonth}{10}
-      \field{urlyear}{2026}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2605.06084}
+      \field{title}{{AMIEOD}: Adaptive Multi-Experts Image Enhancement for Object Detection in Low-Illumination Scenes}
       \field{year}{2026}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/2605.06084v1
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/2605.06084v1
-      \endverb
     \endentry
   \enddatalist
 \endrefsection

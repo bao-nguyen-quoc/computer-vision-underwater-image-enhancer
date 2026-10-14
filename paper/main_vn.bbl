@@ -1,0 +1,520 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{fuRethinkingGeneralUnderwater2023}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=b1a82c744a8e42032f0708c08c5d8c5c}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Chenping},
+           giveni={C\bibinitperiod}}}%
+        {{hash=4e12bbc6b5e9dec718cc469c75298246}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Risheng},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e99edc74d5ff32a310944afd1f548dbe}{%
+           family={Fan},
+           familyi={F\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod}}}%
+        {{hash=d817e93cbffe9fe2e7a9307d3492226a}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Puyang},
+           giveni={P\bibinitperiod}}}%
+        {{hash=13cf1e6d0b4937aa13f3bec3328da8e7}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Hao},
+           giveni={H\bibinitperiod}}}%
+        {{hash=6e7ad94fec4ae703bdeefa1be572a2f9}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={Wanqi},
+           giveni={W\bibinitperiod}}}%
+        {{hash=4b7d3b4397052de8f3b58a02049b88c3}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Ming},
+           giveni={M\bibinitperiod}}}%
+        {{hash=0cf181f6b5a4ea313fba1597badcdbac}{%
+           family={Luo},
+           familyi={L\bibinitperiod},
+           given={Zhongxuan},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{fullhash}{88a196179aae9904a3b18df771b476c4}
+      \strng{fullhashraw}{88a196179aae9904a3b18df771b476c4}
+      \strng{bibnamehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{authorbibnamehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{authornamehash}{d33fc8487ee1ebf23e9aba4572219b18}
+      \strng{authorfullhash}{88a196179aae9904a3b18df771b476c4}
+      \strng{authorfullhashraw}{88a196179aae9904a3b18df771b476c4}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neurocomputing}
+      \field{title}{Rethinking General Underwater Object Detection: Datasets, Challenges, and Solutions}
+      \field{volume}{517}
+      \field{year}{2023}
+      \field{pages}{243\bibrangedash 256}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.neucom.2022.10.039
+      \endverb
+    \endentry
+    \entry{liUnderwaterImageEnhancement2019}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=dee42d8c2aeae4d87b0ffb9f10b9ab19}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Chongyi},
+           giveni={C\bibinitperiod}}}%
+        {{hash=90395059372f58900e06024011c03a66}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Chunle},
+           giveni={C\bibinitperiod}}}%
+        {{hash=8f43314aa651116fa2b07c50e52f8df2}{%
+           family={Ren},
+           familyi={R\bibinitperiod},
+           given={Wenqi},
+           giveni={W\bibinitperiod}}}%
+        {{hash=26c6b0cda0ba024f2a21659f6d4b467b}{%
+           family={Cong},
+           familyi={C\bibinitperiod},
+           given={Runmin},
+           giveni={R\bibinitperiod}}}%
+        {{hash=e4d48863657fd4fef977ab4e596e45bd}{%
+           family={Hou},
+           familyi={H\bibinitperiod},
+           given={Junhui},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a8de5a3e513bd670ca4f49686487a8d2}{%
+           family={Kwong},
+           familyi={K\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f15b34a2bc944a9f055fd6e2e3a7c460}{%
+           family={Tao},
+           familyi={T\bibinitperiod},
+           given={Dacheng},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{4948e8eb3bb953684e008115648d788b}
+      \strng{fullhash}{b893a814879944d530a35ae021a50649}
+      \strng{fullhashraw}{b893a814879944d530a35ae021a50649}
+      \strng{bibnamehash}{4948e8eb3bb953684e008115648d788b}
+      \strng{authorbibnamehash}{4948e8eb3bb953684e008115648d788b}
+      \strng{authornamehash}{4948e8eb3bb953684e008115648d788b}
+      \strng{authorfullhash}{b893a814879944d530a35ae021a50649}
+      \strng{authorfullhashraw}{b893a814879944d530a35ae021a50649}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Image Processing}
+      \field{title}{An Underwater Image Enhancement Benchmark Dataset and Beyond}
+      \field{volume}{29}
+      \field{year}{2020}
+      \field{pages}{4376\bibrangedash 4389}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1109/TIP.2019.2955241
+      \endverb
+    \endentry
+    \entry{fuUnderwaterImageEnhancement2022}{article}{}{}
+      \name{author}{5}{}{%
+        {{hash=ba59419bca1d021d62f6d5357380cf1a}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Zhenqi},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=70ece24a56006133478b92c1ccf04ef0}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Xiaopeng},
+           giveni={X\bibinitperiod}}}%
+        {{hash=56ed1afe5ccf20bc8e455a80ec343bfc}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Wu},
+           giveni={W\bibinitperiod}}}%
+        {{hash=3bcee82710c2d40f6f974afc0816b5a0}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=a2c7fee278b753091e779a0f2404e5e6}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={Xinghao},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{e212e52ae2b9f00fd519b51fa6ee719e}
+      \strng{fullhash}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \strng{fullhashraw}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \strng{bibnamehash}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \strng{authorbibnamehash}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \strng{authornamehash}{e212e52ae2b9f00fd519b51fa6ee719e}
+      \strng{authorfullhash}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \strng{authorfullhashraw}{a06ad5a6fcf197fe5d6cbd75af9ddcac}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2102.00676}
+      \field{title}{Underwater Image Enhancement via Learning Water Type Desensitized Representations}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.48550/arXiv.2102.00676
+      \endverb
+    \endentry
+    \entry{huangContrastiveSemisupervisedLearning2023}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{hash=68f1b5e89b1e3c4b34293188102a2c81}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Shirui},
+           giveni={S\bibinitperiod}}}%
+        {{hash=4e756aede91c8bca22c3346ce030a366}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Keyan},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a83f8cd28a9f36e43dd5d017cd7fc8f4}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Huan},
+           giveni={H\bibinitperiod}}}%
+        {{hash=af06704764d8034ca33edc1493e66b7b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Jun},
+           giveni={J\bibinitperiod}}}%
+        {{hash=465ee216746fd771e3418d74c0dc0f23}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yunsong},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{ebdfdd6a4c44e81615bbbd43ef924bfc}
+      \strng{fullhash}{d84607613c5feda20850d61e6df28e62}
+      \strng{fullhashraw}{d84607613c5feda20850d61e6df28e62}
+      \strng{bibnamehash}{d84607613c5feda20850d61e6df28e62}
+      \strng{authorbibnamehash}{d84607613c5feda20850d61e6df28e62}
+      \strng{authornamehash}{ebdfdd6a4c44e81615bbbd43ef924bfc}
+      \strng{authorfullhash}{d84607613c5feda20850d61e6df28e62}
+      \strng{authorfullhashraw}{d84607613c5feda20850d61e6df28e62}
+      \field{extraname}{1}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Contrastive Semi-Supervised Learning for Underwater Image Restoration via Reliable Bank}
+      \field{year}{2023}
+      \field{pages}{18145\bibrangedash 18155}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1109/CVPR52729.2023.01739
+      \endverb
+    \endentry
+    \entry{awadRevisitingUnderwaterImage2026}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=fdc2c5ab3b8324e75789b7c4ee220bcc}{%
+           family={Awad},
+           familyi={A\bibinitperiod},
+           given={Ali},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8e7c834eb569c62afce8a9199350c360}{%
+           family={Saleem},
+           familyi={S\bibinitperiod},
+           given={Ashraf},
+           giveni={A\bibinitperiod}}}%
+        {{hash=561eb10b7a47dc7d174a8c659d149ec7}{%
+           family={Paheding},
+           familyi={P\bibinitperiod},
+           given={Sidike},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f70d7a2241c99b575d2fec0aaedef947}{%
+           family={Lucas},
+           familyi={L\bibinitperiod},
+           given={Evan},
+           giveni={E\bibinitperiod}}}%
+        {{hash=9b60110d3054f674114750845603d105}{%
+           family={Al-Ratrout},
+           familyi={A\bibinithyphendelim R\bibinitperiod},
+           given={Serein},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c418dcd35de45ac8ff94b3be6a4f1323}{%
+           family={Havens},
+           familyi={H\bibinitperiod},
+           given={Timothy\bibnamedelima C.},
+           giveni={T\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{7997a2cbbd5153ab7caf7db9c0ae4dac}
+      \strng{fullhash}{7e97b1af125e911eae9ea34fe02e8fd2}
+      \strng{fullhashraw}{7e97b1af125e911eae9ea34fe02e8fd2}
+      \strng{bibnamehash}{7e97b1af125e911eae9ea34fe02e8fd2}
+      \strng{authorbibnamehash}{7e97b1af125e911eae9ea34fe02e8fd2}
+      \strng{authornamehash}{7997a2cbbd5153ab7caf7db9c0ae4dac}
+      \strng{authorfullhash}{7e97b1af125e911eae9ea34fe02e8fd2}
+      \strng{authorfullhashraw}{7e97b1af125e911eae9ea34fe02e8fd2}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Imaging}
+      \field{number}{1}
+      \field{title}{Revisiting Underwater Image Enhancement for Object Detection: A Unified Quality--Detection Evaluation Framework}
+      \field{volume}{12}
+      \field{year}{2026}
+      \field{pages}{18}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/jimaging12010018
+      \endverb
+    \endentry
+    \entry{jocherUltralyticsYOLO2024}{software}{}{}
+      \name{author}{2}{}{%
+        {{hash=c5c5e5cd7f4f477f617289b32613deb0}{%
+           family={Jocher},
+           familyi={J\bibinitperiod},
+           given={Glenn},
+           giveni={G\bibinitperiod}}}%
+        {{hash=b8739ebbf3f871d471b6720a02ed541f}{%
+           family={Qiu},
+           familyi={Q\bibinitperiod},
+           given={Jing},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{fullhash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{fullhashraw}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{bibnamehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authorbibnamehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authornamehash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authorfullhash}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \strng{authorfullhashraw}{7ffa0dad9709ac21fa40cfa507db39d1}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Ultralytics {YOLO11}}
+      \field{version}{8.3.0}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://github.com/ultralytics/ultralytics
+      \endverb
+      \verb{url}
+      \verb https://github.com/ultralytics/ultralytics
+      \endverb
+    \endentry
+    \entry{heDeepResidualLearning2016}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{hash=6b4b60e909e78633945f3f9c9dc83e01}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Kaiming},
+           giveni={K\bibinitperiod}}}%
+        {{hash=5e72bc22dbcf0984c6d113d280e36990}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Xiangyu},
+           giveni={X\bibinitperiod}}}%
+        {{hash=bb295293acacd54387339079ebbe4ead}{%
+           family={Ren},
+           familyi={R\bibinitperiod},
+           given={Shaoqing},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f85751488058842b5777c7b4074077b5}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Jian},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{6edb98fe38401d2fe4a026f5ce6e8451}
+      \strng{fullhash}{42c4b52dc3a62cebabbc11c73e1afb53}
+      \strng{fullhashraw}{42c4b52dc3a62cebabbc11c73e1afb53}
+      \strng{bibnamehash}{42c4b52dc3a62cebabbc11c73e1afb53}
+      \strng{authorbibnamehash}{42c4b52dc3a62cebabbc11c73e1afb53}
+      \strng{authornamehash}{6edb98fe38401d2fe4a026f5ce6e8451}
+      \strng{authorfullhash}{42c4b52dc3a62cebabbc11c73e1afb53}
+      \strng{authorfullhashraw}{42c4b52dc3a62cebabbc11c73e1afb53}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Deep Residual Learning for Image Recognition}
+      \field{year}{2016}
+      \field{pages}{770\bibrangedash 778}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1109/CVPR.2016.90
+      \endverb
+    \endentry
+    \entry{solovyevWeightedBoxesFusion2021}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=251f2828891bd015bfcf8a200098065b}{%
+           family={Solovyev},
+           familyi={S\bibinitperiod},
+           given={Roman},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2be0857ae5cdb7fee9911798d50717d3}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Weimin},
+           giveni={W\bibinitperiod}}}%
+        {{hash=7879e7d3a202dca038d228642d1f59c7}{%
+           family={Gabruseva},
+           familyi={G\bibinitperiod},
+           given={Tatiana},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{fullhash}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{fullhashraw}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{bibnamehash}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{authorbibnamehash}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{authornamehash}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{authorfullhash}{716368ffcbf4a15fd391700bd71a3f40}
+      \strng{authorfullhashraw}{716368ffcbf4a15fd391700bd71a3f40}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Image and Vision Computing}
+      \field{title}{Weighted Boxes Fusion: Ensembling Boxes from Different Object Detection Models}
+      \field{volume}{107}
+      \field{year}{2021}
+      \field{pages}{104117}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.imavis.2021.104117
+      \endverb
+    \endentry
+    \entry{luoMASYOLOv11ImprovedUnderwater2025}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=e79a8fe12370710f305d0fd0a596e3a0}{%
+           family={Luo},
+           familyi={L\bibinitperiod},
+           given={Yang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=c2d7851c775d57ce0346cf222f08d287}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Aiping},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4958372adba3245bf0a9e1c164ad5836}{%
+           family={Fu},
+           familyi={F\bibinitperiod},
+           given={Qingqing},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \strng{namehash}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{fullhash}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{fullhashraw}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{bibnamehash}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{authorbibnamehash}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{authornamehash}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{authorfullhash}{73a83c38edf3ebe9b88382753ce54481}
+      \strng{authorfullhashraw}{73a83c38edf3ebe9b88382753ce54481}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{11}
+      \field{title}{{MAS-YOLOv11}: An Improved Underwater Object Detection Algorithm Based on {YOLOv11}}
+      \field{volume}{25}
+      \field{year}{2025}
+      \field{pages}{3433}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/s25113433
+      \endverb
+    \endentry
+    \entry{huangAMIEODAdaptiveMultiExperts2026}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=df44a5941e2e1d057bb24c0e4248c143}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Xiaochen},
+           giveni={X\bibinitperiod}}}%
+        {{hash=1b3387a6a2e9e0ea58f2de27a0468723}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Honggang},
+           giveni={H\bibinitperiod}}}%
+        {{hash=8f95c1a025667551cf8497fd7466cbd4}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Weicheng},
+           giveni={W\bibinitperiod}}}%
+        {{hash=8fe6a7db7be00c6ca6749125e7a2d599}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Xiaobo},
+           giveni={X\bibinitperiod}}}%
+        {{hash=69d94f136c2588d1229b77ef1d1c1f49}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yongyi},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=17dcf883102304862a6307b6f01d9bba}{%
+           family={Qing},
+           familyi={Q\bibinitperiod},
+           given={Linbo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=04805ea5d249a4da7c12139cb0774f08}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Xiaohai},
+           giveni={X\bibinitperiod}}}%
+      }
+      \strng{namehash}{af17200a0564db60bf53beca40caab0a}
+      \strng{fullhash}{1265d82a4cb0e6c7faf2f6d1cf344345}
+      \strng{fullhashraw}{1265d82a4cb0e6c7faf2f6d1cf344345}
+      \strng{bibnamehash}{af17200a0564db60bf53beca40caab0a}
+      \strng{authorbibnamehash}{af17200a0564db60bf53beca40caab0a}
+      \strng{authornamehash}{af17200a0564db60bf53beca40caab0a}
+      \strng{authorfullhash}{1265d82a4cb0e6c7faf2f6d1cf344345}
+      \strng{authorfullhashraw}{1265d82a4cb0e6c7faf2f6d1cf344345}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2605.06084}
+      \field{title}{{AMIEOD}: Adaptive Multi-Experts Image Enhancement for Object Detection in Low-Illumination Scenes}
+      \field{year}{2026}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
